@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../vue.js"></script>
+    <style>
+        #demo{
+            width: 100px;
+            height: 100px;
+            background: red;
+            position: absolute;
+            left:0;
+            top:0;
+        }
+    </style>
+</head>
+<body>
+    <div
+            id="demo"
+            :style="{left:x+'px',top:y+'px'}"
+    ></div>
+    <script>
+        new Vue({
+            el: "#demo",
+            data:{
+                x:0,
+                y:0,
+                disX:0,
+                disY:0,
+                draging:false
+
+            },
+            mounted:function(){
+                document.addEventListener("mousedown",this.downHandle);
+                document.addEventListener("mousemove",this.moveHandle);
+                document.addEventListener("mouseup",this.upHandle);
+            },
+            methods:{
+                downHandle:function(ev){
+                    this.disX = ev.clientX - this.x;
+                    this.disY = ev.clientY  -this.y;
+                    this.draging = true;
+                },
+                moveHandle:function(ev){
+                    if( this.draging ){
+                        console.log(123)
+                        this.x = ev.clientX - this.disX;
+                        this.y = ev.clientY - this.disY;
+                    }
+                },
+                upHandle:function(ev){
+                    if(this.draging){
+                        this.draging = false;
+                    }
+                }
+            }
+
+        })
+    </script>
+</body>
+</html>
