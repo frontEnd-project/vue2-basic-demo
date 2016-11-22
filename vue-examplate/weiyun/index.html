@@ -107,7 +107,7 @@
                                 <span>删除</span>
                             </span>
                         </a>
-                        <a href="#" class="handleFile create">
+                        <a @mousedown="createNewFile" href="javascript:;" class="handleFile create">
                             <span>
                                 <i></i>
                                 <span>新建文件夹</span>
@@ -158,14 +158,13 @@
                             </div>
                         </div>
                         <div class="file-list clearFix">
-                            
                             <div class="file-item" v-for="item,index in fileDate" :key="index">
                                 <div class="item">
                                     <label class="checkbox"></label>
                                     <div class="file-img"><i></i></div>
                                     <p class="file-title-box">
-                                        <span class="file-title">{{item.title}}</span>
-                                        <span class="file-edtor">
+                                        <span class="file-title" v-show="!item.isEdtor">{{item.title}}</span>
+                                        <span class="file-edtor" v-show="item.isEdtor">
                                             <input class="edtor" type="text">
                                         </span>
                                     </p>
@@ -240,3 +239,6 @@
 </body>
 
 </html>
+
+
+NODE_EVN
