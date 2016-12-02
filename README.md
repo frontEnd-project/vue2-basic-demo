@@ -69,6 +69,8 @@ demo还在持续更新中。。。
 
 * [关于 vue 弹窗组件的一些感想](https://segmentfault.com/a/1190000006849814)
 
+* [vue2.0构建单页应用最佳实战](https://segmentfault.com/a/1190000007630677)
+
 ### **基于vue的组件库**
 
 #### # pc端UI库
