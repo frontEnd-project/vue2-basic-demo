@@ -5,12 +5,11 @@
   "author": "WYseven <consolelog@126.com>",
   "private": true,
   "scripts": {
-    "dev": "node webpack-client/build/dev-server.js",
-    "build": "node webpack-client/build/build.js"
+    "dev": "node build/dev-server.js",
+    "build": "node build/build.js"
   },
   "dependencies": {
-    "vue": "^2.1.0",
-    "vuex": "^2.0.0"
+    "vue": "^2.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",

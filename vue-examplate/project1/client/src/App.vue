@@ -47,6 +47,11 @@ export default {
   },
   components: {
     slideRight
+  },
+  created(){
+      this.$http.get('http://localhost:8088/abc').then(function(res){
+        console.log(res)
+      })
   }
 }
 </script>

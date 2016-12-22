@@ -1376,7 +1376,7 @@ function extractEnterGuards (
           if (typeof cb === 'function') {
             cbs.push(function () {
               // #750
-              // if a router-view is wrapped with an out-in transition,
+              // if a router-html is wrapped with an out-in transition,
               // the instance may not have been registered at this time.
               // we will need to poll for registration until current route
               // is no longer valid.
