@@ -112,6 +112,13 @@ var vm = new Vue({
 		},
 		removeAllCompleted:function (){
 			this.list = filters.active(this.list);	
+		},
+        test(){
+			console.log(123);
+		},
+        testInput(ev){
+        	console.log(1233333);
+        	ev.stopPropagation();
 		}
 	}
 });

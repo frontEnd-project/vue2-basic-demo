@@ -1,7 +1,7 @@
 <template>
   <footer class="footer" v-show="list.length">
 				<span class="todo-count">
-					<strong>1</strong> item left				</span>
+					<strong>{{noSelecteNum}}</strong> item left				</span>
     <ul class="filters">
       <li><a href="#/all" class="selected">All</a></li>
       <li><a href="#/active">Active</a></li>
@@ -18,6 +18,11 @@ export default {
   data(){
     return {
       list:this.$store.state.list
+    }
+  },
+  computed:{
+    noSelecteNum(){
+      return this.list.length - this.$store.getters.selecteNum.length
     }
   }
 }

@@ -7,6 +7,7 @@
            placeholder="What needs to be done?"
            @keyup.13="addItem"
            v-model="todo"
+
     >
   </header>
 </template>

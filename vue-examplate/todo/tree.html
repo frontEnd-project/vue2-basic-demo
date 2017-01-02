@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+    </style>
+    <script src="../../vue.js"></script>
+    <script>
+        var data = {
+            name: '0',
+            children: [
+                { name: '1',
+                    children: [
+                        { name: '1-1' },
+                        { name: '1-2',
+                            children: [
+                                { name: '1-2-1' }
+                            ]
+                        },
+                        { name: '1-3' },
+                        { name: '1-4',
+                            children: [
+                                { name: '1-4-1',
+                                    children: [
+                                        { name: '1-4-1-1',
+                                            children: [
+                                                { name: '1-4-1-1-1' }
+                                            ]
+                                        }
+                                    ]
+                                },
+                                { name: '1-4-2' }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    name: '2',
+                    children: [
+                        { name: '2-1' }
+                    ]
+                }
+            ]
+        };
+    </script>
+</head>
+<body>
+    <div id="demo">
+        <Tree :list="list"></Tree>
+    </div>
+    <script>
+
+        Vue.component("Tree",{
+            props:["list"],
+            template:`
+                <ul class="parent">
+                    <li class="child">
+                        <span>{{list.name}}</span>
+
+                    </li>
+                </ul>
+            `
+        });
+
+        new Vue({
+            data:{
+                list:data
+            },
+            el:"#demo"
+        });
+    </script>
+</body>
+</html>

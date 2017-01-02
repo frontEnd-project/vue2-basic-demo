@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #demo div {
+            width: 100px;
+            height:100px;
+            background: red;
+        }
+
+        .fade-name-enter-active,.fade-name-leave-active{
+            transition: 2s;
+        }
+
+        .fade-name-enter{
+            transform: translateY(100px);
+            opacity: 1;
+        }
+        .fade-name-leave{
+            transform: translateY(100px);
+            opacity: 1;
+        }
+
+    </style>
+    <script src="../../vue.js"></script>
+
+    <script>
+
+    </script>
+</head>
+<body>
+    <div id="demo">
+        <input type="button" value="变化" id="btn" @click="show = !show;" />
+        <transition name="fade-name">
+            <div v-if="show">
+                hello
+            </div>
+        </transition>
+    </div>
+    <script>
+        new Vue({
+            el:"#demo",
+            data:{
+                show:false
+            }
+        })
+    </script>
+</body>
+</html>

@@ -23,6 +23,20 @@ const store = new Vuex.Store({
 
     ]
   },
+  getters:{
+    selecteNum(state){
+      return state.list.filter(function(item){
+        return item.isChecked;
+      })
+    },
+    noSelecteNum(state){
+      console.log(state.list.length);
+      return store.getters.selecteNum.length;
+    },
+    isSelectAlls:(state)=>{
+      return store.getters.selecteNum.length === state.list.length
+    }
+  },
   mutations:{
     addItem(state,title){
       state.list.push({
@@ -31,12 +45,14 @@ const store = new Vuex.Store({
         isChecked:false
       })
     },
-    destroyItem(state,id){
-      state.list = state.list.filter(function(value){
-        return value.id != id
-      });
-
-      console.log(state.list);
+    destroyItem(state,todo){
+      //使用重置state.list的方式操作不成功
+      state.list.splice(todo,1);
+    },
+    changeALl(state,bl){
+      state.list.forEach(function(item){
+        item.isChecked = bl;
+      })
     }
   }
 });

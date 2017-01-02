@@ -7,7 +7,7 @@
         v-model="item.isChecked"
       />
       <label>{{item.title}}</label>
-      <button class="destroy" @click="destroyItem(item.id)"></button>
+      <button class="destroy" @click="destroyItem(index)"></button>
     </div>
     <input class="edit" type="text">
   </li>
@@ -15,10 +15,10 @@
 
 <script>
   export default {
-    props:["item"],
+    props:["item","index"],
     methods:{
-      destroyItem(id){
-          this.$store.commit("destroyItem",id);
+      destroyItem(todo){
+          this.$store.commit("destroyItem",todo);
       }
     }
   }

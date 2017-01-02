@@ -12,6 +12,7 @@
 	<body>
 		<div id="demo">
 			{{a}}
+			<div>1233333333</div>
 		</div>
 		<script>
 			
@@ -45,27 +46,38 @@
 				data:data,
 				beforeCreate:function (){
 					console.log( "=====================" );
-					console.log("beforeCreate");	
-					this.a=300;// 改正无效，还没有代理属性
-					console.log(this.a=300);
+					console.log("beforeCreate");
+
+                    this.a = 10000;
+
+                    console.log(this);
+                    console.log(this.$el);
 					
 				},
 				created:function (){
 					console.log( "=====================" );
-					console.log("created");	
-					this.a=500;
-					console.log( this );
+					console.log("created");
+					//this.a = 1;
+					console.log(this);
+                    console.log(this.$el);
+
 					
 				},
 				beforeMount:function (){
 					console.log( "=====================" );
-					console.log("beforeMount");	
-					this.a = 1000;	
+					console.log("beforeMount");
+
+					var span = document.createElement("div");
+					span.innerText = 123;
+                    this.$el.appendChild(span);
+                    console.log(this.$el);
+
+                    this.$el.innerHTML = "";
 				},
 				mounted:function (){
 					console.log( "=====================" );
 					console.log("mounted");
-					//this.a = 2000;
+                    console.log(this.$el);
 				},
 				beforeUpdate:function (){
 					console.log( "=====================" );
@@ -76,8 +88,6 @@
 					console.log("uodated");	
 				}
 			});
-
-			vm.a = 3000;
 
 
 

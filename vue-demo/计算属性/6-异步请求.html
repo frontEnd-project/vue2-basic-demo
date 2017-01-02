@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../../vue.js"></script>
+	</head>
+
+	<body>
+		<div id="demo">
+			<input type="text" v-model="question" />
+			<p>{{answer}}</p>
+		</div>
+
+		<script>
+
+			var vm = new Vue({
+				el:"#demo",
+				data:{
+                    question:"",
+                    answer:"hello,请输入查找的内容123"
+				},
+				computed:{
+                    abc:function(){
+					    var qu = this.question;
+						this.answer = "请稍等";
+						this.fn();
+						return "";
+					}
+				},
+				methods:{
+				    fn:function () {
+						setTimeout(()=>{
+						    this.message = "123"
+						},1000)
+                    }
+				}
+			});
+		</script>
+	</body>
+</html>

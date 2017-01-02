@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../../vue.js"></script>
+	</head>
+
+	<body>
+		<div id="demo">
+			<input type="button" @click="display = !display" value="改变显示隐藏" />
+			<p v-show="display">hello</p>
+			<template v-show="display">
+				<input type="button" @click="++n" value="累加" />
+				<p>{{n}}</p>
+				<my-com-test></my-com-test>
+			</template>
+			<template v-if="display">
+				<input type="button" @click="++m" value="累加" />
+				<p>{{m}}</p>
+				<my-com></my-com>
+			</template>
+
+		</div>
+		<script>
+
+            Vue.component("my-com",{
+                template:"<span>llalalalalla</span>",
+                created(){
+                    console.log(123);
+                },
+                destroyed(){
+                    console.log(111111111111111)
+				}
+            })
+            Vue.component("my-com-test",{
+                template:"<span>llalalalalla</span>",
+                created(){
+                    console.log(333333);
+                },
+                destroyed(){
+                    console.log(333333333333)
+                }
+            })
+
+			var vm = new Vue({
+				el:"#demo",
+				data:{
+                    display:true,
+					n : 0,
+					m: 0
+				}
+			});
+
+
+		</script>
+	</body>
+</html>

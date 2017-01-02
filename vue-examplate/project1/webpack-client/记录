@@ -1,0 +1,4 @@
+路由中
+var router = new Router()
+实例下的属性
+router.app 是Vue根实例
