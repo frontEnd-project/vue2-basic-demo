@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../vue.js"></script>
+
+</head>
+<body>
+    <div id="demo">
+       <span>计时开始</span>
+       <p>{{message}}</p>
+    </div>
+    <script>
+        let data = {
+            message:"hello,Vue!"
+        }
+
+        var vm = new Vue({
+            el:"#demo",
+            data:data
+        })
+        var n = 0;
+        setInterval(function(){
+            n++;
+            vm.message = n;
+        },1000);
+
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="../../vue.js"></script>
+    <script>
+
+    </script>
+</head>
+<body>
+    <div class="page-top">
+        <div class="page-content">
+            <h2>任务计划列表</h2>
+        </div>
+    </div>
+    <div class="main">
+        <h3 class="big-title">添加任务：</h3>
+        <input
+                placeholder="例如：吃饭睡觉打豆豆；    提示：+回车即可添加任务"
+                class="task-input"
+                type="text"
+                v-model="addTodo"
+                @keyup.13="addTodoHandle"
+                ref="addTodoInput"
+        >
+        <ul class="task-count" v-show="list.length">
+            <li>{{doneTodoLength}}个任务未完成</li>
+            <li class="action">
+                <a class="active" href="#">所有任务</a>
+                <a href="#">未完成的任务</a>
+                <a href="#">完成的任务</a>
+            </li>
+        </ul>
+        <h3 class="big-title">任务列表：</h3>
+        <div class="tasks">
+
+            <span class="no-task-tip"  v-show="!list.length">还没有添加任何任务</span>
+            <!--<span class="no-task-tip tip-toggle">
+                <input checked="" class="toggle" type="checkbox">
+                <span>全标记为完成</span>
+            </span>-->
+            <ul class="todo-list" v-show="list.length">
+                <li class="todo" :class="{completed:item.isChecked,editing:edtorTodo === item}" v-for="item,index in list">
+                    <div class="view">
+                        <input v-model="item.isChecked" class="toggle" type="checkbox">
+                        <label @dblclick="edtorTodoHandle(item,index)">{{item.title}}</label>
+                        <button class="destroy" @click="destroyhandle(item)"></button>
+                    </div>
+                    <input
+                            class="edit"
+                            :ref="'edtorInput'+index"
+                            type="text"
+                            v-model="item.title"
+                            @blur="edtorDoneHandle(item)"
+                            @keyup.13="edtorDoneHandle(item)"
+                            @keyup.esc="cancelHandle(item)"
+                    />
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+        /*
+        *
+        * {
+         id:1,
+         title:"吃饭睡觉打豆豆",
+         isChecked:false
+         }*/
+
+        const store = function(key,value){
+            if(!value){
+                return JSON.parse(localStorage.getItem(key) || '[]')
+            }
+
+            return localStorage.setItem(key, JSON.stringify(value));
+        }
+
+        var list = store("todo");
+
+        new Vue({
+            el:".main",
+            data:{
+                list:list,
+                addTodo:"",
+                edtorTodo:"",
+                beforeTitle:""
+            },
+            watch:{
+                /*list:function () {
+                    console.log(123);
+                    store("todo",this.list);
+                }*/
+                list:{
+                    handler:function(){
+                        store("todo",this.list);
+                    },
+                    deep:true
+                }
+            },
+            computed:{
+                doneTodoLength:function(){
+                    return this.list.filter(function(item){
+                        return !item.isChecked;
+                    }).length;
+                }
+            },
+            methods:{
+                addTodoHandle(ev){
+                    this.list.push({
+                        id:Math.random(),
+                        title:this.addTodo,
+                        isChecked:false
+                    });
+                    this.addTodo = '';
+
+                },
+                edtorTodoHandle(todo,index){
+                    this.edtorTodo = todo;
+                    this.$nextTick(function(){
+                         this.$refs['edtorInput'+index][0].focus();
+                    });
+
+                    this.beforeTitle = todo.title;
+                },
+                edtorDoneHandle(todo){
+                    if(!todo.title.trim()){
+                        this.destroyhandle(todo);
+                    }
+                    this.edtorTodo = "";
+                },
+                cancelHandle(todo){
+                    todo.title = this.beforeTitle;
+                    this.beforeTitle = "";
+                    this.edtorTodo = "";
+                },
+                destroyhandle(todo){
+                    var index =  this.list.indexOf(todo);
+                    this.list.splice(index,1);
+                }
+            }
+        })
+
+    </script>
+</body>
+</html>
