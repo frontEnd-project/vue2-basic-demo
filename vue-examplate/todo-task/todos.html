@@ -80,13 +80,31 @@
 
         var list = store("todo");
 
+        //设置三种情况
+        var filters = {
+            all:function (todos){
+                return 	todos
+            },
+            active:function (todos){
+                return todos.filter(function (item){
+                    return !item.isSelected;
+                })
+            },
+            completed:function (todos){
+                return todos.filter(function (item){
+                    return item.isSelected;
+                })
+            }
+        }
+
         new Vue({
             el:".main",
             data:{
                 list:list,
                 addTodo:"",
                 edtorTodo:"",
-                beforeTitle:""
+                beforeTitle:"",
+                visibility:"all"
             },
             watch:{
                 /*list:function () {
@@ -142,6 +160,21 @@
                 }
             }
         })
+
+
+        function changeHashFn(){
+            var hash = window.location.hash.replace(/#\/?/,"");
+            if( filters[hash] ){
+                vm.visibility = hash;
+            }else{
+                window.location.hash = "";
+                vm.visibility = "all";
+            }
+        }
+
+        changeHashFn();
+
+        window.addEventListener("hashchange",changeHashFn)
 
     </script>
 </body>

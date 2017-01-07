@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../vue.js"></script>
+
+</head>
+<body>
+    <div id="demo">
+        <ul id="my-id">
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+    <script>
+        let data = {
+            message:"hello,Vue!"
+        }
+
+        var vm = new Vue({
+            el:"#demo",
+            data:data,
+            render(createElement){
+
+               return createElement(
+                    "ul",      //节点标签名
+                    //标签上的属性，用对象存储键值对
+                    {
+                        attr:{
+                            id:"my-id"
+                        }
+                    },
+                    //该节点的子节点
+                    [
+                        createElement("li",1),
+                        createElement("li",2),
+                        createElement("li",3)
+                    ]
+                )
+            }
+        })
+
+
+    </script>
+</body>
+
+
+</html>
