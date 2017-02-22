@@ -83,6 +83,9 @@ demo还在持续更新中。。。
 
 * [vux](https://vuxjs.gitbooks.io/vux/content/)
 
+* [museui](https://museui.github.io/#/index)
+
+
 #### # 手机端UI库
 
 * [Mint UI](http://mint-ui.github.io/docs/#!/zh-cn2)
