@@ -41,18 +41,17 @@ Vue.component("tree-item",{
 var count = 0;
 Vue.component("tree-list",{
 	data(){
-		console.log( this.displayProps );
 		return {
 			display: this.displayProps,
-			p:123,
-			count:count++
+			count:count++,
+			open:false
 		}
 	},
 	props:["treeData","displayProps"],
 	template:`
-		<ul v-show="display" :abc="p">
+		<ul v-show="display">
 			<li v-for="item,index in treeData">
-		        <div 
+		        <div
 		        	class="tree-title" 
 		        	:style="{'padding-left':count*16+'px'}"
 		        	@click="clickHandle(index)"
@@ -62,16 +61,25 @@ Vue.component("tree-list",{
 		                <i class="ico"></i>
 		            </span>
 		        </div>
-		        <tree-list  :display-props="displayProps" :ref="'tree'+index" v-if="item.child" :tree-data="item.child"></tree-list>
+		        <tree-list  
+		        	:display-props="open" 
+		        	:ref="'tree'+index" 
+		        	v-if="item.child" 
+		        	:tree-data="item.child"></tree-list>
 	        </li>
 		</ul>
 	`,
+	computed:{
+		isChild:function (){
+			return this.treeData.child && this.treeData.child.length;
+		}
+	},
 	methods:{
 		clickHandle(index){
 			var ul = this.$refs["tree"+index] && this.$refs["tree"+index][0];
-			if(ul){
-				ul.display = !ul.display;
-				ul.displayProps = false;
+			console.log( this.isChild );
+			if(this.isChild){
+				this.open = true;
 			}
 			
 		}
