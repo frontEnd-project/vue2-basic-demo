@@ -23,72 +23,87 @@ var data = [
 			}
 		]
 	}
-]
-
+];
+	
 Vue.component("tree-item",{
-	template:`
-		<li>
-	        <div class="tree-title tree-nav tree-contro">
-	            <span>
-	                <strong class="ellipsis">微云</strong>
-	                <i class="ico"></i>
-	            </span>
-	        </div>
-        </li>
-	`
-});
-
-var count = 0;
-Vue.component("tree-list",{
+	props:["item","counts",],
 	data(){
 		return {
-			display: this.displayProps,
-			count:count++,
-			open:false
+			open:true
 		}
 	},
-	props:["treeData","displayProps"],
-	template:`
-		<ul v-show="display">
-			<li v-for="item,index in treeData">
+	computed:{
+		count(){
+			var c = this.counts;
+			return ++c;
+		}
+	},
+	template:`<li>
 		        <div
-		        	class="tree-title" 
+		        	class="tree-title"
+		        	:class="{'tree-contro-none':!item.child}"
 		        	:style="{'padding-left':count*16+'px'}"
-		        	@click="clickHandle(index)"
+		        	@click="toggle"
 		        >
 		            <span>
 		                <strong class="ellipsis">{{item.title}}</strong>
 		                <i class="ico"></i>
 		            </span>
 		        </div>
-		        <tree-list  
-		        	:display-props="open" 
-		        	:ref="'tree'+index" 
-		        	v-if="item.child" 
-		        	:tree-data="item.child"></tree-list>
-	        </li>
-		</ul>
-	`,
-	computed:{
-		isChild:function (){
-			return this.treeData.child && this.treeData.child.length;
-		}
-	},
+		        <ul v-if="item.child" v-show="open">
+			        <tree-item
+			        	v-for="item in item.child"
+			        	:item = "item" 
+			        	:counts="count"
+			        ></tree-item>
+		        </ul>
+	        </li>`,
 	methods:{
-		clickHandle(index){
-			var ul = this.$refs["tree"+index] && this.$refs["tree"+index][0];
-			console.log( this.isChild );
-			if(this.isChild){
-				this.open = true;
-			}
-			
+		toggle(){
+			this.open = !this.open;
 		}
 	}
 })
 
+Vue.component('tree-list',{
+	data(){
+		return {
+			open:false
+		}
+	},
+	props:{
+		'treeData':{
+			type:Array
+		},
+		"counts":{
+			type:Number,
+			default:-1
+		}
+	},
+	template:`<ul>
+				<tree-item v-for="item of treeData" :item="item" :counts="counts"></tree-item>
+			</ul>`,
+	methods:{
+		toggle(){
+			this.open = !this.open;
+		}
+	},
+	computed:{
+		paddingLeft(){
+			return this.counts * 16
+		},
+		childCount(){
+			var count = this.counts;
+			return ++count;
+		}
+	}
+})
+
+
+
 new Vue({
 	el:".tree-menu",
 	data:{
-		tree:data
+		model:data
 	}
 })
