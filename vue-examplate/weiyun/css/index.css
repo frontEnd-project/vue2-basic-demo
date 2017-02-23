@@ -911,10 +911,8 @@ content-menu li {
 /* 空文件提示 */
 
 .g-empty {
-    display: block;
     position: relative;
     height: 100%;
-    display: none;
 }
 
 .g-empty .empty-box {
