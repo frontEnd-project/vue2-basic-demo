@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+
+		var d = {
+					title:"第3级"
+				}
+			
+			var data = [
+				{
+					title:"微云",
+					child:[
+						{
+							title:"第一级"
+						},{
+							title:"第一级",
+							child:[
+								{
+									title:"第二级",
+									child:[
+										d
+									]
+								},
+								{
+									title:"第二级",
+									child:[
+										{
+											title:"第3级"
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			];	
+
+			
+
+			
+
+			
+
+			window.onload = function(){
+				document.onclick  =function (){
+					console.log( getParentsData(d) );;
+				};
+			};
+
+		</script>
+	</head>
+
+	<body>
+		
+	</body>
+</html>

@@ -16,17 +16,19 @@
                 :open="open" 
                 :tree-date="model"
                 @node-click="handleNodeClick"
+                :init-select-data="selectData"
+                :open-item="openItem"
             ></tree-list>
-            <input type="button" value="添加数据" @click="addItem"  />
         </div>
-        <div class="g-empty sort-folder-empty" a="1" :len='!currentItem.length' v-show="!currentItem.length">
-            <div class="empty-box">
-                <div class="ico"></div> 
+        <div class="file-show">
+            <nav-list  :parent-datas="parentDatas" @nav-click="handleNavClick" :select-data="selectData"></nav-list>
+            <div class="g-empty sort-folder-empty"  v-show="hasChild">
+                <div class="empty-box">
+                    <div class="ico"></div> 
                     <p class="title">暂无文件</p> 
                     <p class="content">请点击左上角的“上传”按钮添加</p>
                 </div>
             </div>
-        <div class="file-show">
             <file-list :file-data="currentItem" @file-click="handleFileClick"></file-list>
         </div>
     </div>
