@@ -21,7 +21,12 @@
             ></tree-list>
         </div>
         <div class="file-show">
-            <nav-list  :parent-datas="parentDatas" @nav-click="handleNavClick" :select-data="selectData"></nav-list>
+            <nav-list  
+                :parent-datas="parentDatas" 
+                @nav-click="handleNavClick" 
+                :select-data="selectData"
+                @checkbox-click="handleCheckboxClick"
+            ></nav-list>
             <div class="g-empty sort-folder-empty"  v-show="hasChild">
                 <div class="empty-box">
                     <div class="ico"></div> 

@@ -126,10 +126,14 @@ Vue.component("tree-item",{
 		}
 	},
 	watch:{
-		'item.child':function(){
-			this.childOpen = true;
+		'item.child':function(newValue,oldValue){
+			//只监控length是否不同，不同说明新添加了
+			if(newValue.length !== oldValue.length){
+				this.childOpen = true;
+			}
+			
 		},
-		parentDatas(){
+		parentDatas(newValue,oldValue){
 			if( this.parentDatas.includes(this.item) && !this.childOpen ){
 				this.childOpen = true;
 			}
@@ -199,6 +203,7 @@ Vue.component("tree-list",{
 	},
 	computed:{
 		parentDatas(){
+			console.log(this.initSelectData);
 			if( this.a === this.selectData ){
 				return this.abc;
 			}else{
@@ -210,6 +215,7 @@ Vue.component("tree-list",{
 	},
 	watch:{
 		initSelectData(){
+			
 			this.selectData = this.initSelectData;
 		}
 	},
@@ -239,11 +245,27 @@ Vue.component("file-list",{
 			type:Array
 		}
 	},
+	data(){
+		return {
+			overFile:null,
+			idCheckedFile:false
+		}
+	},
 	template:`
 	<div class="file-list clearFix">
-		<div class="file-item" v-for="file of fileData" @click="entryChildHandle(file)">
+		<div class="file-item" 
+			v-for="file of fileData" 
+			@click="entryChildHandle(file)"
+			@mouseenter="moverHandle(file,$event)"
+			@mouseleave="outHandle(file,$event)"
+			:class="{'file-checked':overFile === file}"
+		>
 		    <div class="item">
-		        <label class="checkbox"></label> 
+		        <label 
+		        	class="checkbox" 
+		        	@click="checkedFileHandle(file,$event)"
+		        	:class="{checked:file.idCheckedFile}"
+		        ></label> 
 		        <div class="file-img"><i></i></div> 
 		        <p class="file-title-box">
 		            <span class="file-title">{{file.title}}</span> 
@@ -258,15 +280,33 @@ Vue.component("file-list",{
 	methods:{
 		entryChildHandle(file){
 			this.$emit("file-click",file);
+		},
+		moverHandle(file,ev){
+			$(ev.target).addClass("file-checked");
+		},
+		outHandle(file,ev){
+			console.log(ev);
+			if(file.idCheckedFile) return;
+			$(ev.target).removeClass("file-checked");
+		},
+		checkedFileHandle(file,ev){
+			this.$set(file,"idCheckedFile",!file.idCheckedFile);
+
+			ev.stopPropagation();
 		}
 	}
 })
 
 Vue.component("nav-list",{
 	props:['selectData','parentDatas'],
+	data(){
+		return {
+			isChecked:false
+		}
+	},
 	template:`
 		<div class="path-nav-box clearFix">
-		    <label class="checked-all"></label>
+		    <label class="checked-all" @click="checkedAllHandle" :class="{'checked':isChecked}"></label>
 		    <div class="path-nav clearFix" >
 		        <a v-for="item,index of parentDatas"  @click='handleNav(item)'
 		            href="javascript:;" :style="{'z-index':parentDatas.length-index}">
@@ -279,6 +319,10 @@ Vue.component("nav-list",{
 	methods:{
 		handleNav(item){
 			this.$emit("nav-click",item);
+		},
+		checkedAllHandle(ev){
+			this.isChecked = !this.isChecked;
+			this.$emit("checkbox-click",this.isChecked);
 		}
 	}
 })
@@ -317,6 +361,11 @@ new Vue({
 		handleNavClick(item){
 			this.currentItem = item.child;
 			this.selectData = item;
+		},
+		handleCheckboxClick(bl){
+			this.currentItem.forEach(function (item){
+				item.idCheckedFile = bl;
+			})
 		}
 	}
 })
