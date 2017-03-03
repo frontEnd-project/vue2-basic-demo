@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../../vue.js"></script>
+    <script src="./vuex.js"></script>
+    <script>
+
+    </script>
+</head>
+<body>
+    <div id="app">
+        <input type="button" value="改变count的值" @click="changeCount" />
+        <p>{{counts}}</p>
+    </div>
+    <script>
+
+        const store = new Vuex.Store({
+            state:{
+                count:0
+            },
+            actions:{
+              add({commit}){
+                  setTimeout(function(){
+                      commit("increment");
+                  },1000)
+              }
+            },
+            mutations:{
+                increment(state){
+                    state.count++;
+                }
+            }
+        });
+
+        new Vue({
+            el:"#app",
+            store,
+            computed:{
+                counts(){
+                    return this.$store.state.count;
+                }
+            },
+            methods:{
+                changeCount(){
+                    //this.$store.commit("increment")
+                    this.$store.dispatch("add")
+                }
+            }
+        })
+    </script>
+</body>
+</html>

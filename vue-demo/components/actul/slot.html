@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        p,h4{
+            margin:0;
+        }
+        .modal{
+            width: 500px;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,.2);
+            border-radius: 6px;
+            box-shadow: 0 3px 9px rgba(0,0,0,.5);
+
+        }
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .modal-content div {
+            padding: 20px;
+        }
+        .modal-footer {
+            padding: 15px;
+            text-align: right;
+            border-top: 1px solid #e5e5e5;
+        }
+        .btn {
+            padding: 25px;
+
+        }
+    </style>
+    <script src="../../../../vue.js">
+
+    </script>
+</head>
+<body>
+    <div id="app">
+        <custom-modal></custom-modal>
+    </div>
+    <script>
+        //模态框
+        Vue.component("custom-modal",{
+            template:`
+                <div class="modal">
+                    <div class="modal-header">
+                        <h4>这是标题</h4>
+                    </div>
+                    <div class="modal-content">
+                        <div>
+                            在这里添加内容
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input class="btn" type="button" value="确定" />
+                        <input class="btn" type="button" value="取消" />
+                    </div>
+                </div>
+            `
+        })
+        new Vue({
+            el:"#app"
+        })
+    </script>
+</body>
+</html>
