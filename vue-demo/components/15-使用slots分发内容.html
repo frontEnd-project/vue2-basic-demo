@@ -32,36 +32,43 @@
 
         }
     </style>
-    <script src="../../../../vue.js">
+    <script src="../../../vue.js">
 
     </script>
 </head>
 <body>
     <div id="app">
-        <custom-modal></custom-modal>
+        <custom>
+            <!--组件标签间的内容是要插入到子组件模板中-->
+            <p>{{message}}</p>
+        </custom>
     </div>
     <script>
+        /*
+            提供了一个slot标签 
+        */
         //模态框
-        Vue.component("custom-modal",{
+        Vue.component("custom",{
+            data(){
+                return {
+                    message:"我是子组件的数据"
+                }
+            },
             template:`
-                <div class="modal">
-                    <div class="modal-header">
-                        <h4>这是标题</h4>
-                    </div>
-                    <div class="modal-content">
-                        <div>
-                            在这里添加内容
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input class="btn" type="button" value="确定" />
-                        <input class="btn" type="button" value="取消" />
-                    </div>
+                <div>
+                    {{message}}
+                    <p>第一个提醒</p>
+                    <p>第二个提醒</p>
+                    <p>第三个提醒</p>
+                    <slot>我是默认数据</slot>
                 </div>
             `
         })
         new Vue({
-            el:"#app"
+            el:"#app",
+            data:{
+                message:"我是根实例下得数据"
+            }
         })
     </script>
 </body>

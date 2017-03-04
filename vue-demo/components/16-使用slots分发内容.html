@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        p,h4{
+            margin:0;
+        }
+        .modal{
+            width: 500px;
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,.2);
+            border-radius: 6px;
+            box-shadow: 0 3px 9px rgba(0,0,0,.5);
+
+        }
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        .modal-content div {
+            padding: 20px;
+        }
+        .modal-footer {
+            padding: 15px;
+            text-align: right;
+            border-top: 1px solid #e5e5e5;
+        }
+        .btn {
+            padding: 25px;
+
+        }
+    </style>
+    <script src="../../../vue.js">
+
+    </script>
+</head>
+<body>
+    <div id="app">
+        <custom>
+            <!--组件标签间的内容是要插入到子组件模板中-->
+            <a href="" slot="one">我要替换第一个提醒</a>
+            <template slot="two">
+                <div>替换第二个提醒</div>
+                <div>替换第二个提醒</div>
+                <div>替换第二个提醒</div>
+            </template>
+            
+            <span>替换第三个提醒</span>
+        </custom>
+    </div>
+    <script>
+        /*
+            提供了一个slot标签 作为内容的插槽
+        */
+        //模态框
+        Vue.component("custom",{
+            data(){
+                return {
+                    message:"我是子组件的数据"
+                }
+            },
+            template:`
+                <div>
+                    <slot name="one"><p>第一个提醒</p></slot>
+
+                    <slot name="two"><p>第二个提醒</p></slot>
+
+                    <slot><p>第三个提醒</p></slot>
+                </div>
+            `
+        })
+        new Vue({
+            el:"#app",
+            data:{
+                message:"我是根实例下得数据"
+            }
+        })
+    </script>
+</body>
+</html>

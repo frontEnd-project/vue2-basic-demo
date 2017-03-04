@@ -32,6 +32,7 @@
 			    display: table;
 			    transition: opacity .2s;
 			    margin-top:10px;
+			    border: 1px solid #ccc;
 			}
 			.m-content {
 				display: table-cell;
@@ -103,7 +104,7 @@
 			}
 
 		</style>
-		 <script src="../../../../vue.js"></script>
+		 <script src="../../../vue.js"></script>
 		<script>
 			
 		</script>
@@ -112,47 +113,51 @@
 	<body>
 		<div id="app">
 			<m-alert 
-				type="success" 
-				info="操作正确" 
+				type="error" 
+				title="哥们，错了，快回来改bug"
 				:closeable="false"
-				show-icon
+				:showIcon="true"
+				style="background: red;width: 300px;"
+				@close-click="handleClose"
 			></m-alert>
-			<m-alert 
-				type="warning" info="警告" @close-click="handleClose" show-icon
-			></m-alert>
-			<m-alert type="error" info="错误提示" @close-click="handleClose"></m-alert>
-			<m-alert type="error" info="错误信息" style="background-color:blue;">
-				<i class="m-icon m-icon-message" slot="icon"></i>
-				<template slot="message">
-					<p>我是定制组件内容</p>
-					<p>我是定制组件内容</p>
-					<p>我是定制组件内容</p>
-					<p>我是定制组件内容</p>
+			<m-alert>
+				<template slot="titleTmp">
+					<p>我是定制的信息</p>
+					<p>我是定制的信息</p>
+					<p>我是定制的信息</p>
+					<p>我是定制的信息</p>
 				</template>
+				<i slot="iconTemp" class="m-icon m-icon-message"></i>
 			</m-alert>
 		</div>
 		<script>
 			/*
-				给组件传入数据：
-					 定制props
-						type：提醒类型性
-							success info warning error
-						info:提醒信息
-							默认为 这里有一个消息要提示
-				
-				父组件监控子组件内部状态
-					自定义事件
+				alert提醒框有四种状态：
+						info success error warning
 
-				定制模板结构
-					slot
+				设置的props：
+					type 提醒框类型 默认为info
+					title 提示信息 '这里有一个消息要提示'
+					closeable 是否禁用关闭 默认为true
+					showIcon 是否显示图标 默认为fasle
+					style 设置提醒框样式 默认为{}
+
+				定制模板：
+					slot为iconTmp  定制icon模板
+					slot为titleTmp 定制提示信息结构
+
+				监控状态变化：
+					事件名close-click   点击关闭X触发
+
 			*/
+
 			Vue.component("m-alert",{
 				props:{
 					type:{
 						type:String,
 						default:"info"
 					},
-					info:{
+					title:{
 						type:String,
 						default:"这是一段提示"
 					},
@@ -171,15 +176,12 @@
 				},
 				template:`
 					<div class="m-alert" :class="[classes]" style="style">
-						
-					<slot name="icon">
-							<i class="m-icon" :class="[iconClass]" v-if="showIcon"></i>
-						</slot>
+						<slot name="iconTemp"><i v-if="!showIcon" class="m-icon" :class='[iconClass]'></i></slot>
 						<div class="m-content">
-							<slot name="message">
-								<span class="m-message">{{info}}</span>
+							<slot name="titleTmp">
+								<span class="m-message">{{title}}</span>
 							</slot>
-							<i v-if="closeable" class="m-closebtn m-icon-close" @click="closeClick"></i>
+							<i class="m-closebtn m-icon-close" v-if="!closeable"></i>
 						</div>
 					</div>
 				`,

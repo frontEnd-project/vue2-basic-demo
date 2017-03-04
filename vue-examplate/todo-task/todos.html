@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link rel="stylesheet" href="index.css">
-    <script src="../../vue.js"></script>
-    <script>
-
-    </script>
+    <script src="./vue.js"></script>
 </head>
 <body>
     <div class="page-top">
@@ -17,165 +14,45 @@
     </div>
     <div class="main">
         <h3 class="big-title">添加任务：</h3>
-        <input
-                placeholder="例如：吃饭睡觉打豆豆；    提示：+回车即可添加任务"
-                class="task-input"
-                type="text"
-                v-model="addTodo"
-                @keyup.13="addTodoHandle"
-                ref="addTodoInput"
-        >
+        <input 
+            placeholder="例如：吃饭睡觉打豆豆；    提示：+回车即可添加任务" 
+            class="task-input" 
+            type="text"
+            v-model="todo"
+            v-on:keyup.13="addTodo"
+        />
         <ul class="task-count" v-show="list.length">
-            <li>{{doneTodoLength}}个任务未完成</li>
+            <li>{{noCheckeLength}}个任务未完成</li>
             <li class="action">
-                <a class="active" href="#">所有任务</a>
-                <a href="#">未完成的任务</a>
-                <a href="#">完成的任务</a>
+                <a  href="#all" :class="{active:visibility === 'all'}">所有任务</a>
+                <a href="#unfinished" :class="{active:visibility === 'unfinished'}">未完成的任务</a>
+                <a href="#finished" :class="{active:visibility === 'finished'}">完成的任务</a>
             </li>
         </ul>
         <h3 class="big-title">任务列表：</h3>
         <div class="tasks">
 
-            <span class="no-task-tip"  v-show="!list.length">还没有添加任何任务</span>
-            <!--<span class="no-task-tip tip-toggle">
-                <input checked="" class="toggle" type="checkbox">
-                <span>全标记为完成</span>
-            </span>-->
-            <ul class="todo-list" v-show="list.length">
-                <li class="todo" :class="{completed:item.isChecked,editing:edtorTodo === item}" v-for="item,index in list">
+            <span class="no-task-tip" v-show="!list.length">还没有添加任何任务</span>
+            <ul class="todo-list">
+                <li class="todo" :class="{completed: item.isChecked,editing: item === edtorTodos}" v-for="item in filteredList" >
                     <div class="view">
-                        <input v-model="item.isChecked" class="toggle" type="checkbox">
-                        <label @dblclick="edtorTodoHandle(item,index)">{{item.title}}</label>
-                        <button class="destroy" @click="destroyhandle(item)"></button>
+                        <input class="toggle" type="checkbox" v-model="item.isChecked" />
+                        <label @dblclick="edtorTodo(item)">{{ item.title }}</label>
+                        <button class="destroy" @click="deleteTodo(item)"></button>
                     </div>
-                    <input
-                            class="edit"
-                            :ref="'edtorInput'+index"
-                            type="text"
-                            v-model="item.title"
-                            @blur="edtorDoneHandle(item)"
-                            @keyup.13="edtorDoneHandle(item)"
-                            @keyup.esc="cancelHandle(item)"
+                    <input 
+                        v-foucs="edtorTodos === item" 
+                        class="edit" 
+                        type="text" 
+                        v-model = "item.title"
+                        @blur="edtorTodoed(item)"
+                        @keyup.13="edtorTodoed(item)"
+                        @keyup.esc="cancelTodo(item)"
                     />
                 </li>
             </ul>
         </div>
     </div>
-    <script>
-        /*
-        *
-        * {
-         id:1,
-         title:"吃饭睡觉打豆豆",
-         isChecked:false
-         }*/
-
-        const store = function(key,value){
-            if(!value){
-                return JSON.parse(localStorage.getItem(key) || '[]')
-            }
-
-            return localStorage.setItem(key, JSON.stringify(value));
-        }
-
-        var list = store("todo");
-
-        //设置三种情况
-        var filters = {
-            all:function (todos){
-                return 	todos
-            },
-            active:function (todos){
-                return todos.filter(function (item){
-                    return !item.isSelected;
-                })
-            },
-            completed:function (todos){
-                return todos.filter(function (item){
-                    return item.isSelected;
-                })
-            }
-        }
-
-        new Vue({
-            el:".main",
-            data:{
-                list:list,
-                addTodo:"",
-                edtorTodo:"",
-                beforeTitle:"",
-                visibility:"all"
-            },
-            watch:{
-                /*list:function () {
-                    console.log(123);
-                    store("todo",this.list);
-                }*/
-                list:{
-                    handler:function(){
-                        store("todo",this.list);
-                    },
-                    deep:true
-                }
-            },
-            computed:{
-                doneTodoLength:function(){
-                    return this.list.filter(function(item){
-                        return !item.isChecked;
-                    }).length;
-                }
-            },
-            methods:{
-                addTodoHandle(ev){
-                    this.list.push({
-                        id:Math.random(),
-                        title:this.addTodo,
-                        isChecked:false
-                    });
-                    this.addTodo = '';
-
-                },
-                edtorTodoHandle(todo,index){
-                    this.edtorTodo = todo;
-                    this.$nextTick(function(){
-                         this.$refs['edtorInput'+index][0].focus();
-                    });
-
-                    this.beforeTitle = todo.title;
-                },
-                edtorDoneHandle(todo){
-                    if(!todo.title.trim()){
-                        this.destroyhandle(todo);
-                    }
-                    this.edtorTodo = "";
-                },
-                cancelHandle(todo){
-                    todo.title = this.beforeTitle;
-                    this.beforeTitle = "";
-                    this.edtorTodo = "";
-                },
-                destroyhandle(todo){
-                    var index =  this.list.indexOf(todo);
-                    this.list.splice(index,1);
-                }
-            }
-        })
-
-
-        function changeHashFn(){
-            var hash = window.location.hash.replace(/#\/?/,"");
-            if( filters[hash] ){
-                vm.visibility = hash;
-            }else{
-                window.location.hash = "";
-                vm.visibility = "all";
-            }
-        }
-
-        changeHashFn();
-
-        window.addEventListener("hashchange",changeHashFn)
-
-    </script>
+    <script src="./app.js"></script>
 </body>
 </html>
