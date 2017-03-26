@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			*{
+				padding:0;
+				margin:0;
+				list-style: none;
+			}
+			.customScroll {
+				width: 58px;
+			    border: 1px solid #000;
+			    overflow: hidden;
+			    position: relative;
+			    height: 190px;
+			}
+			.imitateBar {
+				width: 6px;
+				height: 100%;
+				background-color: #e4e9ed;
+				position: absolute;
+				right: 0;
+				top:0;
+			}
+			.scrollContent {
+				width: 100%;
+				position: absolute;
+				left: 0;
+				top:0;
+			}
+			.imitateBar div {
+				width: 100%;
+				border-radius: 4px;
+				background-color: #949fab;
+				position: absolute;
+				left: 0;
+				top:0;
+			}
+			.inputActive {
+				background-color: #e36079;
+				color: #fff;
+			}
+			.content {
+				width: 100%;
+			}
+
+			.content li {
+				width: 100%;
+				line-height: 30px;
+			}
+		</style>
+		<script src="../../../../vue.js"></script>
+	</head>
+
+	<body>
+		
+		<div id="app">
+			<div class="drop graduationTime clearFix">
+				<custom-scroll>
+					<ul class="content">
+						<li class="inputActive">1980</li>
+						<li>1981</li>
+						<li>1982</li>
+						<li>1983</li>
+						<li>1984</li>
+						<li>1985</li>
+						<li>1986</li>
+						<li>1987</li>
+						<li>1988</li>
+						<li>1989</li>
+						<li>1990</li>
+						<li>1991</li>
+						<li>1992</li>
+						<li>1993</li>
+					</ul>
+				</custom-scroll>	
+			</div>
+		</div>
+
+		<script>
+
+			Vue.component("custom-scroll",{
+				template:`
+					<div class="customScroll">
+						<div class="scrollContent">
+							<slot>这里写内容</slot>
+						</div>
+						<div class="imitateBar">
+							<div></div>
+						</div>	
+					</div>
+				`,
+				methods:{
+					mouseWheel(element,upFn,downFn){
+						element.onmousewheel = wheelFn
+						if( element.addEventListener ){
+							element.addEventListener("DOMMouseScroll",wheelFn,false);
+						}
+
+						function wheelFn(ev){
+							var direction = true;
+							if(ev.wheelDelta){  //ie和chrome
+								direction = ev.wheelDelta > 0 ? true : false;
+							}else if(ev.detail){ //FF
+								direction = ev.detail < 0 ? true : false;
+							}
+
+							if( direction ){  //向上
+								typeof upFn === "function" && upFn.call(element,ev);
+							}else{  //向下
+								typeof downFn === "function" && downFn.call(element,ev);
+							}
+
+							ev.preventDefault();
+						}
+					}
+				},
+				mounted(){
+					var customScroll = document.querySelector(".customScroll");
+					var imitateBar = document.querySelector(".imitateBar");
+					var imitateBarDiv = imitateBar.querySelector("div");
+					var scrollContent = customScroll.querySelector(".scrollContent");
+
+					//获取到文档高度
+					var ch = customScroll.clientHeight;
+					//获取内容高度
+					var sh = customScroll.scrollHeight;
+					
+					imitateBarDiv.style.height = ch/sh*ch + 'px';
+
+					var scrollH = imitateBarDiv.offsetHeight;
+
+					//左侧差值
+					var lc = ch-sh;
+					//右侧差值
+					var rc = ch-scrollH;
+
+					if( sh-ch <= 0 ){
+						imitateBar.style.display = 'none';
+					}
+
+					this.mouseWheel(customScroll,function (){
+						if(scrollContent.offsetTop == 0) return;
+						var t = scrollContent.offsetTop + 5;
+
+						if( t >=0 ){
+							t = 0;
+						}
+
+						scrollContent.style.top = t + 'px';
+						imitateBarDiv.style.top = t/lc*rc + 'px';
+					},function (){
+						if(scrollContent.offsetTop == ch-sh) return;
+						var t = scrollContent.offsetTop - 5 ;
+						if( t < lc ){
+							t = lc;
+						}
+						scrollContent.style.top = t + 'px';	
+						imitateBarDiv.style.top = t/lc*rc + 'px';	
+					});
+
+				}
+			})
+
+			new Vue({
+				el:"#app"
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../../vue.js"></script>
+	</head>
+
+	<body>
+		<div id="el">
+			<input type="button" value="sayHello" @click='sayHello' />
+			<input type="button" value="a" @click='a' />
+		</div>
+		<script>
+			/*
+				mixin混合
+					混合对象可以包含任意组件选项
+					组件使用混合对象时，所有混合对象的选项将被混入该组件本身的选项。
+
+				混合其实就是把一个对象的属性复制给另一个对象上，当对象上有同名的方法或属性，那么会屏蔽掉混合对象上的方法
+
+				mixin混合一般用在多个组件公用统一个对象的情况
+				
+
+
+			*/
+
+			//定义混合对象
+			var customMixin = {
+				created(){
+					console.log("混合对象中的created");
+				},
+				hello(){
+					console.log("hello");
+				},
+				methods:{
+					sayHello(){
+						console.log("sayHello");
+					}
+				}
+			}
+
+			new Vue({
+				el:'#el',
+				mixins:[customMixin],
+				methods:{
+					sayHello(){   //会覆盖掉混合对象中的sayHello方法
+						this.sayHello();
+						console.log("instance say hello");
+					},
+					a(){
+
+					}
+				}
+			})
+
+
+
+		</script>
+	</body>
+</html>
