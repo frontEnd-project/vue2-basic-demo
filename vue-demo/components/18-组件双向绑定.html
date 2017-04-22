@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+
+		</style>
+		 <script src="../../vue.js"></script>
+		<script>
+			
+		</script>
+	</head>
+
+	<body>
+		<div id="app">
+			<h2>父组件的input</h2>
+			<input v-model="mes">
+			<hr>
+			<h2>子组件的input</h2>
+			<custom1 v-model="mes"></custom1>
+			<h2>父组件和子组件数据展示</h2>
+			<p>{{mes}}</p>
+		</div>
+		<script>
+			
+
+			var custom1 = Vue.component("custom1",{
+				props:['value'],
+				data(){
+					return {
+						val:this.value
+					}
+				},
+				watch:{
+					value(value){
+						this.val = value;
+					}
+				},
+				computed:{
+					showVal(){
+						return this.val
+					}
+				},
+				template:`<div>
+							<input v-model="val" @input="changeHandle">
+						  </div>`,
+				methods:{
+					changeHandle(){
+						this.$emit("input",this.val)
+					}
+				}
+			})
+
+			new Vue({
+				el:'#app',
+				data:{
+					mes:""
+				}
+			})
+		</script>
+	</body>
+</html>

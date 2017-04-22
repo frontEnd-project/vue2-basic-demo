@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+		<script src="./js/vue.js"></script>
+	</head>
+
+	<body>
+		<!-- 模板 view-->
+		<div id="app" v-cloak>
+			<input type="button" value="change" @click="show = !show" />
+			<custom-async></custom-async>
+			<custom-async></custom-async>
+			<custom-async v-if="show"></custom-async>
+		</div>
+		<script>
+			/*
+				在大型应用中，我们可能需要将应用拆分为多个小模块，按需从服务器下载。为了让事情更简单， Vue.js 允许将组件定义为一个工厂函数，动态地解析组件的定义。Vue.js 只在组件需要渲染时触发工厂函数，并且把结果缓存起来，用于后面的再次渲染。
+			*/
+			function service(){
+				return {
+					template : '<div>我是自定义的异步组件</div>'
+				}
+			}
+
+			Vue.component("custom-async", function (resolve){
+				setTimeout(function (){
+					resolve(service());	
+				},2000)	
+			});
+			// 数据 model
+			var data = {
+				message: 'hello',
+				show: false
+			};
+			// vm view-model
+			var vm = new Vue({
+				el: "#app",
+				data: data,
+				methods: {
+					changes(){
+						this.list.sort(function (a,b){
+							return Math.random()-0.5;
+						});
+					}
+				}
+			});
+
+		</script>
+	</body>
+</html>
