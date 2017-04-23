@@ -3,61 +3,54 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title></title>
-		<style>
-
-		</style>
-		 <script src="../../vue.js"></script>
-		<script>
-			
-		</script>
+		<script src="../../vue.js"></script>
 	</head>
 
 	<body>
-		<div id="app">
-			<h2>父组件的input</h2>
-			<input v-model="mes">
+		<!-- 模板 view-->
+		<div id="app" v-cloak>
+			<h2>父组件input</h2>
+			<input v-model='message'>
 			<hr>
-			<h2>子组件的input</h2>
-			<custom1 v-model="mes"></custom1>
-			<h2>父组件和子组件数据展示</h2>
-			<p>{{mes}}</p>
+			<h2>子组件</h2>
+			<custom v-model='message'></custom>
+			<hr>
+			{{ message }}
 		</div>
 		<script>
 			
-
-			var custom1 = Vue.component("custom1",{
+			//自定义全局的组件
+			Vue.component("custom", {
 				props:['value'],
 				data(){
 					return {
-						val:this.value
+						val: this.value
 					}
 				},
-				watch:{
-					value(value){
-						this.val = value;
+				watch: {
+					value(newValue){
+						this.val = newValue;
 					}
 				},
-				computed:{
-					showVal(){
-						return this.val
-					}
-				},
-				template:`<div>
-							<input v-model="val" @input="changeHandle">
-						  </div>`,
-				methods:{
-					changeHandle(){
-						this.$emit("input",this.val)
+				template: `
+					<input type="text" v-model='val' @input='changeValue' />
+				`,
+				methods: {
+					changeValue(){
+						this.$emit("input", this.val)
 					}
 				}
-			})
+			});
+			// 数据 model
+			var data = {
+				message: 'hello'
+			};
+			// vm view-model
+			var vm = new Vue({
+				el: "#app",
+				data: data
+			});
 
-			new Vue({
-				el:'#app',
-				data:{
-					mes:""
-				}
-			})
 		</script>
 	</body>
 </html>
