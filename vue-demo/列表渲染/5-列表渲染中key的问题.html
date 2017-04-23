@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			[v-cloak] {
+				display: none;
+			}
+		</style>
+		<script src="./js/vue.js"></script>
+	</head>
+
+	<body>
+		<!-- 模板 view-->
+		<div id="app" v-cloak>
+			<input  v-model="addNews" @keyup.13='addNewsAction' />
+			<ul>
+				<li v-for='item,index in list' @click='addStyle' :key='Math.random()' :a='index'>
+					{{item.title}} 
+					<input type="button" value="删除" @click='removeNews(index)' />
+				</li>
+			</ul>
+		</div>
+		<script>
+			/*
+				不加key，Vue会复用元素
+				加上key，给每个元素一个标记
+
+				当 Vue.js 用 v-for 正在更新已渲染过的元素列表时，它默认用 “就地复用” 策略。如果数据项的顺序被改变，Vue将不是移动 DOM 元素来匹配数据项的顺序， 而是简单复用此处每个元素，并且确保它在特定索引下显示已被渲染过的每个元素。
+
+				为了给 Vue 一个提示，以便它能跟踪每个节点的身份，从而重用和重新排序现有元素，你需要为每项提供一个唯一 key 属性。
+			*/
+			// 数据 model
+			var data = {
+				title: '新闻列表',
+				addNews: '',
+				list: [
+					{
+						title: '妙味活动1'
+					},
+					{
+						title: '妙味活动2'
+					},
+					{
+						title: '妙味活动3'
+					}
+				]
+			};
+			// vm view-model
+			var vm = new Vue({
+				el: "#app",
+				data: data,
+				methods: {
+					addNewsAction(){
+						this.list.push({
+							title: this.addNews
+						})
+					},
+					addStyle(ev){
+						ev.target.style.background = 'red';
+					},
+					removeNews(index){
+						this.list.splice(index,1);
+					}
+				}
+			});
+
+		</script>
+	</body>
+</html>
