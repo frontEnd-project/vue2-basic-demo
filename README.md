@@ -85,6 +85,10 @@ demo还在持续更新中。。。
 
 * [museui](https://museui.github.io/#/index)
 
+* [vue-beauty](https://fe-driver.github.io/vue-beauty/#/components/start)
+
+* [FTUI](https://aliqin.github.io/atui/docs/atui/introduce)
+
 
 #### # 手机端UI库
 
@@ -95,6 +99,8 @@ demo还在持续更新中。。。
 * [vue-carbon](https://alibaba.github.io/weex/)
 
 * [vonic](https://github.com/wangdahoo/vonic)
+
+* [Vux](https://vux.li/#/)
 
 ### 构建工具
 
