@@ -12,12 +12,8 @@
 				padding: 0;
 				list-style: none;
 			}
-			li:nth-child() {
-				
-			}
 		</style>
-		<link rel="stylesheet" type="text/css" href="css/baidu.css" />
-		<script src="../../vue.js"></script>
+		<link rel="stylesheet" type="text/css" href="/css/baidu.css" />
 	</head>
 
 	<body>
@@ -69,7 +65,55 @@
 			</div>
 		</div>
 		<script>
+			/*
+				1. li隔行变色 是奇数行还是偶数行
+						%
+				2. 给li绑定事件
+					鼠标移入li
+						背景颜色为yellow
+					鼠标移出li
+						移出的这个li中的checkbox是否是选中的
+							选中了
+								li保持背景颜色为yellow
+							没选中
+								还原之前隔行变色的颜色上
 
+						如果找li下的input
+			*/
+
+			var lis = document.querySelectorAll("#list li");
+			var inputs = document.querySelectorAll("#list input");
+
+			for( var i = 0; i < lis.length; i++ ){
+				if( i%2 == 0 ){
+					lis[i].abc = '#fff';
+					lis[i].style.background = '#fff'
+				}else{
+					lis[i].abc = 'red';
+					lis[i].style.background = 'red';
+				}
+				lis[i].index = i;
+				lis[i].onmouseover = function (){
+					this.style.background ='yellow';	
+				};
+				lis[i].onmouseout = function (){
+					// 对应的input
+					if(inputs[this.index].checked){  //选中
+						this.style.background = 'yellow';
+					}else{
+						// this.style.background = this.abc;	
+						// 判断移开的这个元素是奇数行还是偶数行
+						if( this.index % 2 == 0 ){
+							this.style.background = '#fff'
+						}else{
+							this.style.background = 'red';
+						}
+					}
+
+					
+				};
+				
+			}
 
 		</script>
 	</body>
