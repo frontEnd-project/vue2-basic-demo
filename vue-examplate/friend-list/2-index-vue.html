@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,
+			ul,
+			li,
+			h2 {
+				margin: 0;
+				padding: 0;
+			}
+			
+			li {
+				list-style: none;
+			}
+			.list>div {
+				margin-bottom: 10px;
+			}
+			.list .show {
+				display: block;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="./css/qq.css" />
+		<script src="../../vue.js"></script>
+	</head>
+
+	<body>
+		<div class="wrap" id="warp">
+			<div class="list">
+				<div v-for="option,i in friend">
+					<h2 @click="showItem(option,i)"><span></span>{{option.title}}</h2>
+					<ul :class="{show: i === showIndex}">
+						<li v-for="item in option.list">
+							{{item}}
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<script>
+			let d = [
+				{
+					title: '我的好友',
+					list: ['小佳Love','从来就是这么正经','leo是个胖子','momo不是陌陌']
+				},
+				{
+					title: '企业好友',
+					list: ['小佳Love','从来就是这么正经','leo是个胖子','momo不是陌陌']
+				},
+				{
+					title: '黑名单',
+					list: ['小佳Love','从来就是这么正经','leo是个胖子','momo不是陌陌']
+				}
+			]
+
+			new Vue({
+				el: '#warp',
+				data: {
+					friend: d,
+					showIndex: -1
+				},
+				methods: {
+					showItem (option,index) {
+						if(this.showIndex === index){
+							this.showIndex = -1;
+						}else{
+							this.showIndex = index;
+						}
+					}
+				}
+			})
+			
+
+		</script>
+	</body>
+
+</html>

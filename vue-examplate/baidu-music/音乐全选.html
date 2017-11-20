@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style>
+			body,
+			ul,
+			li {
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+		</style>
+		<link rel="stylesheet" type="text/css" href="baidu.css" />
+	</head>
+
+	<body>
+		<div class="wrap">
+			<div class="baidu">
+				<ul id="list">
+					<li>
+						<div><input type="checkbox" name=""></div>
+						<span>泡沫</span>
+						<span>邓紫棋</span>
+					</li>
+					<li>
+						<div><input type="checkbox" name=""></div>
+						<span>说爱你</span>
+						<span>蔡依林</span>
+					</li>
+					<li>
+						<div><input type="checkbox" name=""></div>
+						<span>稻香</span>
+						<span>周杰伦</span>
+					</li>
+					<li>
+						<div><input type="checkbox" name=""></div>
+						<span>我的梦</span>
+						<span>张靓颖</span>
+					</li>
+					<li>
+						<div><input type="checkbox" name=""></div>
+						<span>怎么说我不爱你</span>
+						<span>萧敬腾</span>
+					</li>
+					<li>
+						<div><input type="checkbox" name=""></div>
+						<span>无处安放</span>
+						<span>白若溪</span>
+					</li>
+				</ul>
+				<div class="select">
+					<span class="selectAll">
+						<input type="checkbox" id="checkAllBtn" name="">
+						<span>全选</span>
+					</span>
+					<div class="others">
+						<span><em></em>收藏</span>
+						<span><em></em>添加</span>
+						<span><em></em>删除</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			/*
+				1. li隔行变色 是奇数行还是偶数行
+						%
+				2. 给li绑定事件
+					鼠标移入li
+						背景颜色为yellow
+					鼠标移出li
+						移出的这个li中的checkbox是否是选中的
+							选中了
+								li保持背景颜色为yellow
+							没选中
+								还原之前隔行变色的颜色上
+
+						如果找li下的input
+
+				3. 全选
+					只要全选按钮勾选，所有的单选的input都要勾选 li的颜色变为yellow
+					只要全选按钮不勾选，所有的单选的input都不勾选，回到隔行变色
+
+				4. 单选
+						控制全选按钮是否被勾选
+						只要有一个单选按钮不给勾选，全选按钮就不勾选
+
+						单选按钮勾选了，是否所有的单选按钮都被勾选了
+
+			*/
+
+			var lis = document.querySelectorAll("#list li");
+			
+
+			for( var i = 0; i < lis.length; i++ ){
+				if( i%2 == 0 ){
+					lis[i].abc = '#fff';
+					lis[i].style.background = '#fff'
+				}else{
+					lis[i].abc = 'red';
+					lis[i].style.background = 'red';
+				}
+				lis[i].index = i;
+				lis[i].onmouseover = function (){
+					this.style.background ='yellow';	
+				};
+				lis[i].onmouseout = function (){
+					// 从移开的li中找input
+					var inputCheckbox = this.querySelector("input");
+					if(!inputCheckbox.checked){  //选中
+						if( this.index % 2 == 0 ){
+							this.style.background = '#fff'
+						}else{
+							this.style.background = 'red';
+						}
+					}
+
+					
+				};
+				
+			}
+
+			// 全选按钮
+			var checkAllBtn = document.querySelector("#checkAllBtn");
+			// 所有的单选按钮
+			var inputs = document.querySelectorAll("#list input");
+			checkAllBtn.onclick = function (){
+				console.log(this.checked);
+				for( var i = 0; i < inputs.length; i++ ){
+					inputs[i].checked = this.checked;
+
+					if(this.checked){
+						lis[i].style.background = 'yellow';
+					}else{
+						if( lis[i].index % 2 == 0 ){
+							lis[i].style.background = '#fff'
+						}else{
+							lis[i].style.background = 'red';
+						}
+					}
+
+				}
+			};
+
+			// 点击单选按钮
+
+			for( var j = 0; j < inputs.length; j++ ){
+				inputs[j].onclick = function (){
+					if( this.checked ){
+						// 看一下是否所有的input都被勾选了
+						// 只有等到for循环结束之后，才能肯定的知道是否单选按钮都全部选中了
+						// 一下这个for循环判断有误
+						/*for( var i = 0; i < inputs.length; i++ ){
+							if( inputs[i].checked ){
+								checkAllBtn.checked = true;
+							}else{
+								checkAllBtn.checked = false;
+							}
+						}*/
+
+						// 看一下所有的inputs，只有有一个没被选中，checkAllBtn的checked就为false
+
+						var checkedAll = true;  // 假设全部选中
+						// 1 2 3 4 5
+						for( var i = 0; i < inputs.length; i++ ){
+							if(!inputs[i].checked){
+								checkedAll = false;
+								break;
+							}
+						}
+						// 经过for循环判断每一个inputs的checked是否为false这么一个过程，如果checkedAll标示依然在for循环结束后保持是个true，说明全都选中了；如果checkedAll这个标示为false，说明至少有一个没被选中
+
+						checkAllBtn.checked = checkedAll;
+
+					}else{
+						checkAllBtn.checked = false;
+					}
+				};
+			}	
+
+		</script>
+	</body>
+
+</html>
