@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../../vue.js"></script>
+	</head>
+
+	<body>
+		<div id="demo" v-if='on123'>
+			<input type="button" value="改变" @click="on123=false" />
+			{{message}}
+			<custom></custom>
+		</div>
+		<script>
+
+		Vue.component('custom', {
+			template: `<h2>hello</h2>`,
+
+		})
+
+			var vm = new Vue({
+				el:"#demo",
+				data:{
+					message:"hello,Vue",
+					on123:true
+				},
+				beforeCreate(){
+					console.log('beforeCreate')
+					console.log(this)
+					console.log(this.message)
+					console.log(demo.innerHTML)
+				},
+				created(){
+					console.log('ceated')
+					console.log(this)
+					console.log(this.message)
+					console.log(demo.innerHTML)
+				},
+				beforeMount(){
+					console.log('beforeMount')
+					console.log(demo.innerHTML)
+				},
+				mounted(){
+					console.log('mounted')
+					console.log(demo.innerHTML)
+				},
+				beforeUpdate(){
+					console.log('beforeUpdate')
+					console.log(demo.innerHTML)
+				},
+				updated(){
+					console.log('updated')
+					//console.log(demo.innerHTML)
+				},
+				beforeDestroy(){
+					console.log('beforeDestroy')
+				},
+				destroyed(){
+					console.log('destroyed')
+				}
+			});
+
+			document.onclick = function(){
+				vm.$destroy(true);
+			}
+
+		</script>
+	</body>
+</html>

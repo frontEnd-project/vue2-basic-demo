@@ -6,25 +6,16 @@
     <style>
         #demo div {
             width: 100px;
-            height:100px;
+            height: 100px;
             background: red;
         }
-        .fade-enter-active, .fade-leave-active {
+
+        .v-enter-active, .v-leave-active {
             transition: opacity .5s
         }
-        .fade-enter, .fade-leave-active {
+        .v-enter, .v-leave-to{
+
             opacity: 0
-        }
-
-        .fade-name-enter-active,.fade-leave-active{
-            transition: translateX 3s;
-        }
-
-        .fade-name-leave{
-            transform: translateX(100px);
-        }
-        .fade-name-enter{
-            transform: translateX(100px);
         }
 
     </style>
@@ -37,13 +28,8 @@
 <body>
     <div id="demo">
         <input type="button" value="变化" id="btn" @click="show = !show;" />
-        <!--<transition name="fade">
+        <transition>
             <div v-show="show">
-                hello
-            </div>
-        </transition>-->
-        <transition name="fade-name">
-            <div v-if="show">
                 hello
             </div>
         </transition>
