@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        ul {
+            background: blue;
+            height: 300px;
+        }
+        li {
+            border: 1px solid #000;
+            width: 300px;
+            background: red;
+        }
+        .component-fade-enter-active, .component-fade-leave-active {
+          transition: height 1s;
+        }
+        .component-fade-enter {
+            height: 0;
+            opacity: 0;
+        }
+        .component-fade-enter-to {
+            height: 300px;
+            opacity: 1;
+        }
+    </style>
+    <script src="../../vue.js"></script>
+    <script src="./velocity.min.js"></script>
+
+    <script>
+
+    </script>
+</head>
+<body>
+    <div id="demo">
+        <input v-model="query">
+          <transition name="component-fade" mode="out-in" v-on:before-enter="beforeEnterParent">
+              <transition-group
+              v-show="abc"
+                tag="ul"
+                v-on:before-enter="beforeEnter"
+                v-on:enter="enter"
+                v-on:leave="leave"
+                
+              >
+                <li v-show="abcd"
+                  v-for="(item, index) in computedList"
+                  v-bind:key="item.msg"
+                  v-bind:data-index="index"
+                >{{ item.msg }}</li>
+                <li v-show="abcd"
+                  v-for="(item, index) in computedList"
+                  v-bind:key="item.msg"
+                  v-bind:data-index="index"
+                >{{ item.msg }}</li>
+              </transition-group>
+          </div>
+          </transition>
+    </div>
+    <script>
+
+        new Vue({
+            el:"#demo",
+            data: {
+               query: '',
+               list: [{ msg: 'Bruce Lee' },
+                     { msg: 'Jackie Chan' },
+                     { msg: 'Chuck Norris' },
+                     { msg: 'Jet Li' },
+                     { msg: 'Kung Fury' }],
+               abc:false,
+               abcd: false
+             },
+             created(){
+                setTimeout(() => {
+                    this.abc = true;
+                },1000)
+
+                setTimeout(() => {
+                    this.abcd = true;
+                },2000)
+                
+             },
+             computed: {
+                computedList: function () {
+                    var vm = this
+                    return this.list.filter(function (item) {
+                     return item.msg.toLowerCase().indexOf(vm.query.toLowerCase()) !== -1
+                    })
+                }
+            },
+              methods: {
+                beforeEnterParent (el) {
+                    console.log(el.scrollHeight);
+                },
+                beforeEnter: function (el) {
+                  el.style.opacity = 0
+                  console.log(el);
+                },
+                enter: function (el, done) {
+                  var delay = el.dataset.index * 200
+                  setTimeout(function () {
+                    Velocity(
+                      el,
+                      { opacity: 1 },
+                      { complete: done }
+                    )
+                  }, delay)
+                },
+                leave: function (el, done) {
+                  var delay = el.dataset.index * 500
+                  setTimeout(function () {
+                    Velocity(
+                      el,
+                      { opacity: 0, height: 0 },
+                      { complete: done }
+                    )
+                  }, delay)
+                }
+              } 
+        })
+    </script>
+</body>
+</html>

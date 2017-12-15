@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+    </style>
+    <script src="../../vue.js"></script>
+    <script src="./tween.js"></script>
+
+    <script>
+
+    </script>
+</head>
+<body>
+    <div id="demo">
+        <count :start-num='0' v-for="item in n" :target-num="item"></count>
+    </div>
+    <script>
+
+        Vue.component('count',{
+            props:['startNum','targetNum'],
+            data () {
+                return {
+                    animatedNumber: this.startNum
+                  }
+            },
+            computed : {
+                number () {
+                    console.log(this.targetNum);
+                    return this.targetNum
+                }
+            },
+            template: `<div>{{animatedNumber}}</div>`,
+              watch: {
+                number: function(newValue, oldValue) {
+                  var vm = this
+                  function animate () {
+                    if (TWEEN.update()) {
+                      requestAnimationFrame(animate)
+                    }
+                  }
+
+                  new TWEEN.Tween({ tweeningNumber: oldValue })
+                    .easing(TWEEN.Easing.Quadratic.Out)
+                    .to({ tweeningNumber: newValue }, 500)
+                    .onUpdate(function () {
+                      vm.animatedNumber = this.tweeningNumber.toFixed(0)
+                    })
+                    .start()
+
+                  animate()
+                }
+              }
+        })
+
+        new Vue({
+            el:"#demo",
+            data:{
+                n:[0,0,0,0]
+            },
+            created() {
+                setTimeout( () => {
+                     this.n = [1000,3000,5000,60000]
+                },1000)
+            }         
+        })
+    </script>
+</body>
+</html>
