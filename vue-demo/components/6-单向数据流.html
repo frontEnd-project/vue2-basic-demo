@@ -14,7 +14,7 @@
 
     /*
         父组件给子组件传入数据，子组件不能修改props中的值，否则会抛出错误
-        
+
     */
 
     Vue.component("child-component",{
@@ -37,10 +37,10 @@
         props:["message","optionsObj"],
         template:`<div>
             <p>{{message}}</p>
-            <input 
-                type="button" 
-                value="测试改变props中数据" 
-                @click="this.clickHandle" 
+            <input
+                type="button"
+                value="测试改变props中数据"
+                @click="this.clickHandle"
             />
             <p>{{this.optionsObj}}</p>
             <hr/>

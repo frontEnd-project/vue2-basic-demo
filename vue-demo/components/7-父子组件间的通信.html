@@ -8,9 +8,9 @@
 <body>
     <div id="demo">
         {{message}}
-        <my-component 
-            v-on:increment="changeMessage" 
-            :message="message" 
+        <my-component
+            v-on:increment="changeMessage"
+            :message="message"
             v-on:click.native="nativeEvent"
         ></my-component>
     </div>
@@ -28,10 +28,10 @@
         //声明props
         props:["message"],
         template:`<div>
-            <input 
-                type="button" 
-                value="测试改变props中数据" 
-                @click="this.clickHandle" 
+            <input
+                type="button"
+                value="测试改变props中数据"
+                @click="this.clickHandle"
             />
             <p>{{message}}</p>
         </div>`,
@@ -55,10 +55,10 @@
 
             },
             nativeEvent:function (){
-               console.log(123);     
+               console.log(123);
             }
         }
-        
+
     });
 
     //子组件已经和它外部完全解耦了。它所做的只是触发一个父组件关心的内部事件

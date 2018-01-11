@@ -17,6 +17,7 @@
             left: 50%;
             top: 50%;
             transform: translate(-50%,-50%);
+            z-index: 100;
         }
         .modal-header {
             padding: 15px;
@@ -34,6 +35,15 @@
             padding: 5px 15px;
 
         }
+        .mask {
+          width: 100%;
+          height: 100%;
+          background: #000;
+          opacity: .5;
+          position: fixed;
+          left: 0;
+          top: 0;
+        }
     </style>
     <script src="../../vue.js">
 
@@ -41,26 +51,34 @@
 </head>
 <body>
     <div id="app">
-        <custom-modal @on-ok="onHandle">
+        <button type="button" @click="isShow=true">测试模态框</button>
+        <custom-modal @on-ok="onHandle" :show.sync='isShow'>
             <!--在这里是需要混合在组件中的结构-->
-            <ul slot="modal-content">
-                <li v-for="item of list">
-                    {{item}}
-                </li>
-            </ul>
-        </custom-modal>
-        <custom-modal>
-            <!--在这里是需要混合在组件中的结构-->
-            <p slot="modal-content">我就想提醒你来上课了</p>
-
-            <div slot="footer">
-                <span>确定</span>
-                <span>取消</span>
-                <span>重置</span>
+            <div slot="modal-content">
+                温馨提示
             </div>
-
         </custom-modal>
+        <div class="mask1"></div>
     </div>
+    <template id="modal-html">
+
+      <div class="modal" v-show='show'>
+          <div class="modal-header">
+              <h4>{{modalTitle}}</h4>
+          </div>
+          <div class="modal-content">
+              <div>
+                  <slot name="modal-content">在这里添加内容</slot>
+              </div>
+          </div>
+          <div class="modal-footer">
+              <slot name="footer">
+                  <input class="btn" type="button" value="确定" @click="ok" />
+                  <input class="btn" type="button" value="取消" @click="cancel" />
+              </slot>
+          </div>
+      </div>
+    </template>
     <script>
 
         /*
@@ -74,6 +92,14 @@
             监控状态变化：
                 事件名on-ok        点击确定触发
                 事件名on-cancel   点击取消触发
+
+            可能会需要对一个 prop 进行“双向绑定”,当一个子组件改变了一个带 .sync 的 prop 的值时，
+            这个变化也会同步到父组件中所绑定的值
+
+            当一个子组件改变了一个带 .sync 的 prop 的值时，这个变化也会同步到父组件中所绑定的值。
+            这很方便，但也会导致问题，因为它破坏了单向数据流。
+
+            在开发可复用的组件库时。我们需要做的只是让子组件改变父组件状态的代码更容易被区分。
         */
 
         //模态框
@@ -82,29 +108,18 @@
                 modalTitle:{
                     type:String,
                     default:"这是一个模态框"
+                },
+                show :{
+                  type: Boolean,
+                  default: false
                 }
             },
-            template:`
-                <div class="modal">
-                    <div class="modal-header">
-                        <h4>{{modalTitle}}</h4>
-                    </div>
-                    <div class="modal-content">
-                        <div>
-                            <slot name="modal-content">在这里添加内容</slot>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <slot name="footer">
-                            <input class="btn" type="button" value="确定" @click="ok" />
-                            <input class="btn" type="button" value="取消" @click="cancel" />
-                        </slot>
-                    </div>
-                </div>
-            `,
+            template:`#modal-html`,
             methods:{
                 ok(){
-                    this.$emit("on-ok")
+
+                   this.$emit("update:show",false)
+                   this.$emit("on-ok")
                 },
                 cancel(){
                     this.$emit("on-cancel")
@@ -114,14 +129,15 @@
 
         var list = [...'miaoweiketang'];
 
-        new Vue({
+        let vm = new Vue({
             el:"#app",
             data:{
+                 isShow: false,
                 list:list
             },
             methods:{
                 onHandle(){
-                    alert("我点击了确定")
+                  //  alert("我点击了确定")
                 }
             }
         })

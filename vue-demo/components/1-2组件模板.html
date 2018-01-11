@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="../../vue.js" charset="utf-8"></script>
+  </head>
+  <body>
+	<div id="demo">
+		<custom-compont></custom-compont>
+		<custom-compont></custom-compont>
+		<my-compont></my-compont>
+	</div>
+  <script type="text/x-tempalte" id="hello">
+    <div>hello,component!放在了一对script标签内了</div>
+  </script>
+  <template id="my-hello">
+    <div>hello,myCompont!放在了template标签内了</div>
+  </template>
+	<script type="text/javascript">
+	  /*
+	  *
+        组件的模板
+          写在选项对象的template中，
+          写在一对script标签中，设置id，标签的type为x-template
+
+              当script的标签的type设置不是text/javascript,包含在script中的代码不会被解析为js代码执行
+
+          写在一对template标签内，设置id
+
+              template元素 是一种用于保存客户端内容的机制，该内容在页面加载时不被渲染，但可以在运行时使用JavaScript进行实例化。
+
+              可以将一个模板视为正在被存储以供随后在文档中使用的一个内容片段。
+
+              虽然, 在加载页面的同时,解析器确实处理 <template>元素的内容，这样做只是确保这些内容是有效的; 然而,元素的内容不会被渲染。
+
+	  */
+		//全局注册组件
+		//烤串命名法 注册组件，并指定组件的标签，组件的自定义HTML标签名
+		Vue.component("custom-compont",{
+		    template:"#hello"
+		});
+		//驼峰命名法
+		Vue.component("myCompont",{
+		    template:"#my-hello"
+		});
+		//初始化根实例（root instance）
+		new Vue({
+		    el:"#demo"
+		});
+	</script>
+  </body>
+</html>

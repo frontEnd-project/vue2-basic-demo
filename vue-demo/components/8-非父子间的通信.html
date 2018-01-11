@@ -8,9 +8,9 @@
 <body>
     <div id="demo">
         {{message}}
-        <my-component 
-            v-on:increment="changeMessage" 
-            :message="message" 
+        <my-component
+            v-on:increment="changeMessage"
+            :message="message"
             v-on:click.native="nativeEvent"
         ></my-component>
     </div>
@@ -27,10 +27,10 @@
         props:["message"],
         template:`<div>
             <p>child-component</p>
-            <input 
-                type="button" 
-                value="测试改变props中数据" 
-                @click="this.clickHandle" 
+            <input
+                type="button"
+                value="测试改变props中数据"
+                @click="this.clickHandle"
             />
             <p>{{message}}</p>
         </div>`,
@@ -46,10 +46,10 @@
         //声明props
         props:["message"],
         template:`<div>
-            <input 
-                type="button" 
-                value="测试改变props中数据" 
-                @click="this.clickHandle" 
+            <input
+                type="button"
+                value="测试改变props中数据"
+                @click="this.clickHandle"
             />
             <p>{{message}}</p>
             <hr/>
@@ -76,15 +76,15 @@
                 this.message++;
             },
             nativeEvent:function (){
-               console.log(123);     
+               console.log(123);
             }
         }
-        
+
     });
 
     root.$on("increment",function (){
         console.log("我被触发啦");
-        root.message++;   
+        root.message++;
     });
 
 

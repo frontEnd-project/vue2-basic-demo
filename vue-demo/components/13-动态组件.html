@@ -20,43 +20,43 @@
     <div id="demo">
         <h1>测试动态组件</h1>
         <hr>
-        <input 
-            type="button" 
+        <input
+            type="button"
             value="加载a-component组件"
-            v-on:click="changeComponent" 
+            v-on:click="changeComponent"
             data-component="aComponent"
         />
-        <input 
-            type="button" 
+        <input
+            type="button"
             value="加载b-component组件"
-            v-on:click="changeComponent" 
+            v-on:click="changeComponent"
             data-component="bComponent"
         />
-        <input 
-            type="button" 
+        <input
+            type="button"
             value="加载c-component组件"
-            v-on:click="changeComponent" 
+            v-on:click="changeComponent"
             data-component="cComponent"
         />
-        
-        <component :is="curComponent"></component>  
+
+        <component :is="curComponent"></component>
         <hr>
         <h2>绑定在组件对象上</h2>
         <hr>
-        <input 
-            type="button" 
+        <input
+            type="button"
             value="加载home组件"
-            v-on:click="changeglobalCom" 
+            v-on:click="changeglobalCom"
             data-component="home"
         />
-        <input 
-            type="button" 
+        <input
+            type="button"
             value="加载test组件"
-            v-on:click="changeglobalCom" 
+            v-on:click="changeglobalCom"
             data-component="test"
         />
-        
-        <component :is="testCompoent"></component>  
+
+        <component :is="testCompoent"></component>
     </div>
 <script type="text/javascript">
 
@@ -71,7 +71,7 @@ var home = {
     data:function (){
         return {
             m:"hello"
-        }       
+        }
     }
 }
 
