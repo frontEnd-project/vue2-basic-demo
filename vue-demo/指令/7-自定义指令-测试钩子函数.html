@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			[v-cloak]{
+				display: none;
+			}
+		</style>
+		<script src="../../vue.js"></script>
+	</head>
+
+	<body>
+		<div id="demo">
+
+			<div class="box" v-long-tap="show">hello</div>
+
+		</div>
+		<script>
+						Vue.directive('long-tap',{
+						   // 当绑定元素插入到 DOM 中
+						  inserted : function(el,binding){
+								
+						  }
+						});
+            var vm = new Vue({
+                el:"#demo",
+                data:{
+                    msg:"hello"
+                },
+                methods :{
+                    show:function(){
+                        alert(123);
+                    }
+                }
+            });
+
+
+		</script>
+	</body>
+</html>
