@@ -11,22 +11,18 @@
 
 	<body>
 		<div id="demo">
-			<h3>使用v-for渲染数组</h3>
+			<h3>事件修饰符测试</h3>
 			<hr/>
-			<!-- 阻止单击事件冒泡 -->
-			<!--<a v-on:click.stop="doThis"></a>-->
-			<!-- 提交事件不再重载页面 -->
-			<!--<form v-on:submit.prevent="onSubmit"></form>-->
-			<!-- 修饰符可以串联  -->
-			<!--<a v-on:click.stop.prevent="doThat"></a>-->
-			<!-- 只有修饰符 -->
-			<!--<form v-on:submit.prevent></form>-->
-			<!-- 添加事件侦听器时使用时间捕获模式 -->
-			<!--<div v-on:click.capture="doThis">...</div>-->
-			<!-- 只当事件在该元素本身（而不是子元素）触发时触发回调 -->
-			<!--<div v-on:click.self="doThat">...</div>-->
-
-
+			<div @click.capture="demo1">
+				demo1
+				<div @click.stop.self="demo2">
+					demo2
+					<div @click.stop.once="demo3">
+						demo3
+					</div>
+				</div>
+			</div>
+			<a href="http://www.miaov.com" @click.prevent>miaov</a>
 		</div>
 
 		<script>
@@ -72,14 +68,14 @@
 					countFn:function (){
 						this.counter2 += 1;
 					},
-					testEvent:function (event){
-						//event为原生的事件对象
-						console.log( event.target );  //获取目标元素，是一个原生的DOM元素
-						console.log( event );
+					demo1(){
+						console.log('demo1');
 					},
-					testLineEvent:function (h,event){
-						console.log(h);
-						console.log(event);	//原生的事件对象
+					demo2(){
+						console.log('demo2');
+					},
+					demo3(){
+						console.log('demo3');
 					}
 				}
 			})
