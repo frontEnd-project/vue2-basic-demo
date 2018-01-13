@@ -15,7 +15,8 @@
 		<div id="demo">
 			<button @click="msg=!msg">测试show</button>
 			<button @click="hello=!hello">测试show</button>
-			<div class="box" v-long-tap="msg">
+			<button @click="show1=!show1">测试钩子函数unbind</button>
+			<div class="box" v-if="show1" v-long-tap="msg">
 					{{hello}}
 			</div>
 			<input type="text" v-focus />
@@ -34,12 +35,12 @@
 				update (el,binding) {
 					console.log('update');
 					console.log(el,binding);
-					debugger;
+					//debugger;
 				},
 				componentUpdated (el,binding) {
 					console.log('componentUpdated')
 					console.log(el,binding);
-					debugger;
+					//debugger;
 				},
 				unbind () {
 					console.log('unbind');
@@ -68,7 +69,8 @@
                 el:"#demo",
                 data:{
                     msg:"hello",
-										hello: '更新'
+										hello: '更新',
+										show1: true
                 },
                 methods :{
                     show:function(){

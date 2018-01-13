@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+
+		</style>
+		<script src="../../vue.js"></script>
+	</head>
+
+	<body>
+		<div id="demo">
+			<input type="text" v-model="n" />
+			<p>{{message}}</p>
+			<p>{{mes}}</p>
+		</div>
+
+		<script>
+
+			var vm = new Vue({
+				el:"#demo",
+				data:{
+					n: 10,
+					message: '请输入数字'
+				},
+				watch: {
+					/*n: {
+						immediate:true,
+						handler(){
+							this.message = 'loading...'
+							setTimeout(() => {
+								if(this.n<5){
+									this.message = '小于5'
+								}else if(this.n > 10){
+									this.message =  '大于10'
+								}else {
+									this.message =  '既不小于5也不大于10'
+								}
+							},1000)
+						}
+					}*/
+				},
+				computed:{
+					mes () {
+						this.message = 'loading...'
+						// 这是一个异步操作
+						setTimeout(() => {
+							console.log(123)
+							if(this.n<5){
+								this.message = '小于5'
+							}else if(this.n > 10){
+								this.message =  '大于10'
+							}else {
+								this.message =  '既不小于5也不大于10'
+							}
+						},1000)
+					}
+				}
+			});
+		</script>
+	</body>
+</html>
