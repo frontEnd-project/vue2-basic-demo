@@ -8,7 +8,7 @@
 				display: none;
 			}
 		</style>
-		<script src="./js/vue.js"></script>
+		<script src="../../vue.js"></script>
 	</head>
 
 	<body>
@@ -16,7 +16,7 @@
 		<div id="app" v-cloak>
 			<input  v-model="addNews" @keyup.13='addNewsAction' />
 			<ul>
-				<li v-for='item,index in list' @click='addStyle' :key='Math.random()' :a='index'>
+				<li v-for='item,index in list' @click='addStyle' :key='index' :a='index'>
 					{{item.title}} 
 					<input type="button" value="删除" @click='removeNews(index)' />
 				</li>

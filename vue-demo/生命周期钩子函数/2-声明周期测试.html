@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../../vue.js"></script>
+	</head>
+
+	<body>
+		<div id="demo" v-if='on123'>
+			<input type="button" value="改变" @click="on123=false" />
+			<input type="button" value="改变message" @click="message='ok'" />
+			{{message}}
+			<custom v-if='on123' :message="message"></custom>
+		</div>
+		<script>
+
+		Vue.component('custom', {
+			props: ['message'],
+			template: `<h2>{{message}}</h2>`,
+			beforeCreate(){
+				console.group('beforeCreate')
+				console.log(this)
+				console.log(demo.innerHTML)
+				debugger;
+			},
+			created(){
+				console.group('ceated')
+				console.log(this)
+				console.log(this.message)
+				console.log(demo.innerHTML)
+				debugger;
+			},
+			beforeMount(){
+				console.group('beforeMount')
+				console.log(this);
+				console.log(demo.innerHTML)
+				debugger;
+			},
+			mounted(){
+				console.group('mounted')
+				console.log(this);
+				console.log(demo.innerHTML)
+				debugger;
+			},
+			beforeUpdate(){
+				console.group('beforeUpdate')
+				console.log(this);
+				debugger;
+			},
+			updated(){
+				console.group('updated')
+				console.log(this);
+				debugger;
+			},
+			beforeDestroy(){
+				console.group('beforeDestroy')
+				console.log(this);
+				debugger;
+			},
+			destroyed(){
+				console.group('destroyed')
+				console.log(this);
+				debugger;
+			}
+
+		})
+
+			var vm = new Vue({
+				el:"#demo",
+				template: '<div>ok</div>',
+				data:{
+					message:"hello,Vue",
+					on123:true
+				}
+			});
+
+			/*document.onclick = function(){
+				vm.$destroy(true);
+			}*/
+
+		</script>
+	</body>
+</html>

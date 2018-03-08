@@ -29,44 +29,56 @@
 					on123:true
 				},
 				beforeCreate(){
-					console.log('beforeCreate')
+					console.group('beforeCreate')
 					console.log(this)
 					console.log(this.message)
 					console.log(demo.innerHTML)
+					debugger;
 				},
 				created(){
-					console.log('ceated')
+					console.group('ceated')
 					console.log(this)
 					console.log(this.message)
 					console.log(demo.innerHTML)
+					debugger;
 				},
 				beforeMount(){
-					console.log('beforeMount')
+					console.group('beforeMount')
+					console.log(this);
 					console.log(demo.innerHTML)
+					debugger;
 				},
 				mounted(){
-					console.log('mounted')
+					console.group('mounted')
+					console.log(this);
 					console.log(demo.innerHTML)
+					debugger;
 				},
 				beforeUpdate(){
-					console.log('beforeUpdate')
-					console.log(demo.innerHTML)
+					console.group('beforeUpdate')
+					console.log(this);
+					debugger;
 				},
 				updated(){
-					console.log('updated')
-					//console.log(demo.innerHTML)
+					console.group('updated')
+					console.log(this);
+					debugger;
 				},
 				beforeDestroy(){
-					console.log('beforeDestroy')
+					console.group('beforeDestroy')
+					console.log(this);
+					debugger;
 				},
 				destroyed(){
-					console.log('destroyed')
+					console.group('destroyed')
+					console.log(this);
+					debugger;
 				}
 			});
 
-			document.onclick = function(){
+			/*document.onclick = function(){
 				vm.$destroy(true);
-			}
+			}*/
 
 		</script>
 	</body>

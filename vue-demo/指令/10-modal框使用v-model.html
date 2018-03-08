@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			[v-cloak]{
+				display: none;
+			}
+			p,h4{
+					margin:0;
+			}
+			.modal{
+					width: 500px;
+					background-color: #fff;
+					border: 1px solid rgba(0,0,0,.2);
+					border-radius: 6px;
+					box-shadow: 0 3px 9px rgba(0,0,0,.5);
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%,-50%);
+					z-index: 111;
+			}
+			.modal-header {
+					padding: 15px;
+					border-bottom: 1px solid #e5e5e5;
+			}
+			.modal-content div {
+					padding: 20px;
+			}
+			.modal-footer {
+					padding: 15px;
+					text-align: right;
+					border-top: 1px solid #e5e5e5;
+			}
+			.btn {
+					padding: 5px 15px;
+
+			}
+			.mask {
+				position: fixed;
+		    top: 0;
+		    bottom: 0;
+		    left: 0;
+		    right: 0;
+		    background-color: rgba(55,55,55,.6);
+		    height: 100%;
+		    z-index: 100;
+			}
+		</style>
+		<script src="../../vue.js"></script>
+		<script>
+			Vue.component("custom-modal",{
+					props:{
+							modalTitle:{
+									type:String,
+									default:"这是一个模态框"
+							},
+							value:{
+								type:Boolean,
+								default: false
+							}
+					},
+					template:`#modal-html`,
+					methods:{
+							ok(){
+
+								 this.$emit("input",false)
+								 this.$emit("on-ok")
+							},
+							cancel(){
+								this.$emit("input",false)
+									this.$emit("on-cancel")
+							}
+					}
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="demo">
+			<button @click="isShow=true">测试show</button>
+			<custom-modal v-transfer v-model="isShow">
+					<!--在这里是需要混合在组件中的结构-->
+					<div slot="modal-content">
+							温馨提示
+					</div>
+			</custom-modal>
+		</div>
+		<template id="modal-html">
+      <div class="modal-example" v-show='value'>
+					<div class="mask"></div>
+        	<div class="modal">
+						<div class="modal-header">
+								<h4>{{modalTitle}}</h4>
+						</div>
+						<div class="modal-content">
+								<div>
+										<slot name="modal-content">在这里添加内容</slot>
+								</div>
+						</div>
+						<div class="modal-footer">
+								<slot name="footer">
+										<input class="btn" type="button" value="确定" @click="ok" />
+										<input class="btn" type="button" value="取消" @click="cancel" />
+								</slot>
+						</div>
+        	</div>
+      </div>
+    </template>
+		<script>
+						Vue.directive('transfer',{
+							inserted : function(el,binding){
+								document.body.appendChild(el)
+							},
+							componentUpdated () {
+								console.log('componentUpdated')
+							}
+						});
+
+            var vm = new Vue({
+                el:"#demo",
+                data:{
+                    msg:"hello",
+					isShow: false
+                },
+                methods :{
+                    show:function(){
+                        alert(123);
+                    }
+                }
+            });
+
+
+		</script>
+	</body>
+</html>
