@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script>
+			let obj = {a:1};
+			function initProxy(params,cb){
+				return new Proxy(params,{
+					get : function get(target,attr,value){
+
+						return target[attr]
+					},
+					set : function set(target,attr,value){
+						target[attr] = value;
+						cb(value)
+					}
+				});
+			}
+
+			obj = initProxy(obj,function (value){
+				title.innerHTML = value	
+			})
+
+
+		</script>
+	</head>
+
+	<body>
+		<input  id="mes" />
+		<p id="title"></p>
+		<script>
+			
+			title.innerHTML = obj.a;
+			mes.oninput = function (){
+				obj.a = this.value;
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="./src/vue.js"></script>
+		<script>
+			
+		</script>
+	</head>
+
+	<body>
+		<div id="app">
+			<input  v-model='message' />
+			{{message}}
+			<custom-abc></custom-abc>
+		</div>
+		<script type="text/x-template" id="abc">
+			<div id="abc">hell0,chilren</div>
+		</script>
+		<script>
+			/*
+				子级mounted之后，已经编译完成，但不保证已经存在于DOM中
+			*/
+			let childObj = Vue.extend({
+				template: '#abc',
+				beforeCreate () {
+					console.group('child:beforeCreate');
+					console.log(this.$el);
+					console.log(this.$data);
+					console.groupEnd();
+				},
+				created () {
+					console.group('child:created');
+					console.log(this.$el);
+					console.log(this.$data);
+					console.groupEnd();
+				},
+				beforeMount () {
+					console.group('child:beforeMounted');
+					console.log(this.$el);
+					console.log(this.$data);
+					console.groupEnd();
+				},
+				mounted () {
+
+					console.group('child:mounted');
+					console.log(this.$el);
+					console.log(this.$data);
+					console.log(document.getElementById('#abc'));
+					console.groupEnd();
+				},
+				beforeUpdate(){
+					console.group('child:beforeUpdated');
+					console.log(this.$el.innerHTML);
+					console.log(JSON.stringify(this.$data));
+					console.groupEnd();
+				},
+				updated(){
+					console.group('child:updated');
+					console.log(this.$el.innerHTML);
+					console.log(JSON.stringify(this.$data));
+					console.groupEnd();
+				},
+				beforeDestroy () {
+					console.group('child:beforeDestroy');
+					console.log(this.$el.innerHTML);
+					console.log(JSON.stringify(this.$data));
+					console.groupEnd();
+				},
+				destroyed(){
+					console.group('child:destroyed');
+					console.log(this.$el.innerHTML);
+					console.log(JSON.stringify(this.$data));
+					console.groupEnd();
+				}
+			});
+
+			Vue.component('custom-abc',childObj)
+
+			let vm = new Vue({
+				el: '#app',
+				data: {
+					message: 'hello,vue'
+				},
+				beforeCreate () {
+					console.group('beforeCreate');
+					console.log(this.$el);
+					console.log(this.$data);
+					console.groupEnd();
+				},
+				created () {
+					console.group('created');
+					console.log(this.$el);
+					console.log(this.$data);
+					console.groupEnd();
+				},
+				beforeMount () {
+					console.group('beforeMounted');
+					console.log(this.$el);
+					console.log(this.$data);
+					console.groupEnd();
+				},
+				mounted () {
+					console.group('mounted');
+					console.log(this.$el);
+					console.log(this.$data);
+					console.groupEnd();
+				},
+				beforeUpdate(){
+					console.group('beforeUpdated');
+					console.log(this.$el.innerHTML);
+					console.log(JSON.stringify(this.$data));
+					console.groupEnd();
+				},
+				updated(){
+					console.group('updated');
+					console.log(this.$el.innerHTML);
+					console.log(JSON.stringify(this.$data));
+					console.groupEnd();
+				},
+				beforeDestroy () {
+					console.group('beforeDestroy');
+					console.log(this.$el.innerHTML);
+					console.log(JSON.stringify(this.$data));
+					console.groupEnd();
+				},
+				destroyed(){
+					console.group('destroyed');
+					console.log(this.$el.innerHTML);
+					console.log(JSON.stringify(this.$data));
+					console.groupEnd();
+				}
+			})
+
+			//vm.$destroy();
+		</script>
+	</body>
+</html>
