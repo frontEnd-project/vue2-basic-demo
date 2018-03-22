@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="./src/vue.js"></script>
+		<script>
+			let data1 = [
+                    {
+                        title: 'parent 1',
+                        expand: true,
+                        children: [
+                            {
+                                title: 'parent 1-1',
+                                expand: true,
+                                children: [
+                                    {
+                                        title: 'leaf 1-1-1'
+                                    },
+                                    {
+                                        title: 'leaf 1-1-2'
+                                    }
+                                ]
+                            },
+                            {
+                                title: 'parent 1-2',
+                                expand: false,
+                                children: [
+                                    {
+                                        title: 'leaf 1-2-1'
+                                    },
+                                    {
+                                        title: 'leaf 1-2-1'
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+
+              function transitionData(d,pid){
+              	let arr = [];
+              	for( let i = 0; i < d.length; i++ ){
+              		let id = Math.round(Math.random() * 100);
+              		d[i].id = id;
+              		d[i].pid = pid;
+              		arr.push(d[i]);
+              		if(d[i].children){
+              			arr = arr.concat(transitionData(d[i].children,id));
+              			delete d[i].children;
+              		}
+
+
+              	}
+              	return arr;
+              }
+              console.log(transitionData(data1,-1));
+		</script>
+	</head>
+
+	<body>
+		<div id="app">
+			<h2>树形菜单</h2>
+			<!-- <ul>
+				<li>
+					<span>第一级</span>
+					<ul>
+						<li>
+							<span>第二级</span>
+						</li>
+					</ul>
+				</li>
+			</ul> -->
+			<tree-contents :list="data1" one></tree-contents>
+		</div>
+		<script>
+			Vue.component('tree-folder',{
+				props:['folder','folders','one'],
+				template: `
+					<div>
+						<span @click.stop="showTree(folder.expand)">{{folder.title}}</span>
+						<tree-contents v-show='folder.expand' :list="folder.children"></tree-contents>
+					</div>
+				`,
+				methods: {
+					showTree () {
+						/*this.folders.filter(item => item !== this.folder).forEach(item => item.expand = false)*/
+						this.folder.expand = !this.folder.expand
+					}
+				}
+			})
+
+			Vue.component('tree-contents',{
+				props:['list','one'],
+				template: `
+					<ul>
+						<li v-for="item in list">
+							<tree-folder
+								v-if="item.children" 
+								:folder="item" :folders='list' one>
+							</tree-folder>						
+							<span v-else>{{item.title}}</span>
+						</li>
+					</ul>
+				`
+			})
+
+
+			let vm = new Vue({
+				//el: '#app',
+				data: {
+					data1
+				}
+			});
+			
+
+		</script>
+	</body>
+</html>
