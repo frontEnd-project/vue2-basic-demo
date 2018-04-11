@@ -50,6 +50,11 @@ demo还在持续更新中。。。
 ### **vue系列文章**
 
 * [前端开发之走进Vue.js](https://segmentfault.com/a/1190000007328936)
+* [深入浅出 - vue变化侦测原理](https://github.com/berwin/Blog/issues/17)
+* [Vue 项目架构设计与工程化实践](https://github.com/berwin/Blog/issues/14)
+* [为什么Vue使用异步更新队列](https://github.com/berwin/Blog/issues/22)
+* [Vue 模板编译原理](https://github.com/berwin/Blog/issues/18)
+* [深入浅出 - vue之State--vue1.0](https://github.com/berwin/Blog/issues/13)
 
 ### **vue2.0源码分析**
 
@@ -111,4 +116,6 @@ demo还在持续更新中。。。
 ### Vue的一些例子
 
 * [vue-examplate](https://vuejsexamples.com/)
+
+
 
