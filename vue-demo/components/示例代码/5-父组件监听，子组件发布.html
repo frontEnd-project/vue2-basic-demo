@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="../../../vue.js"></script>
+	</head>
+
+	<body>
+		<div id="app">
+		    <!-- 城市的下拉 -->
+		    <div class="test1" :style="{color: color1}">第一个需求</div>
+		    <custome-select title="请选择城市" :list="['北京','上海','杭州']" :select-index="0"  @click-option="changeTest1Handle"></custome-select>
+		    <!-- 用户的下拉 -->
+		    <div class="test2" :style="{color: color2}">第二个需求</div>
+		    <custome-select title="请选择用户" :list="['张三','李四','王五']" :select-index="1"  @click-option="changeTest2Handle"></custome-select>
+		</div>
+		<button onclick="handle()">按钮</button>
+		<script>
+			function handle(){
+				console.log(123);
+				document.body.style.background = 'red'	
+			}
+
+			Vue.component('custome-select',{
+			    props:{
+			        title: {
+			            type: String,
+			            default: '这是一个定义的下拉框'
+			        },
+			        list:{
+			            type: Array,
+			            default(){return []}
+			        },
+			        selectIndex:{
+			        	type: Number,
+			            default:0
+			        }
+			    },
+			    data(){
+			    	return {
+			    		show: false,
+			    		currentIndex: this.selectIndex // 把selectIndex作为currentIndex的初始值
+			    	}
+			    },
+				template: `
+			        <div class="select">
+			            <h2>{{title}}</h2>
+			            <p @click="toggleShow">请选择：{{list[currentIndex]}}</p>
+			            <ul v-show="show">
+			                <li 
+			                	v-for="item,index in list"
+								:key="index"
+								@click="changeIndex(index)"
+			                >
+			                	{{item}}
+			                </li>
+			            </ul>
+			        </div>
+			    `,
+			    methods:{
+			    	toggleShow(){
+			    		this.show = !this.show;
+			    	},
+			    	changeIndex(index){
+			    		this.currentIndex = index;
+			    		this.$emit('click-option')
+			    	}
+			    }
+			})
+
+			new Vue({
+				el: '#app',
+				data: {
+					color1: '',
+					color2: ''
+				},
+				methods: {
+					// 第一个需求
+					changeTest1Handle(){
+						console.log(1);
+						this.color1 = 'red';
+					},
+					// 第二个需求
+					changeTest2Handle(){
+						this.color2 = 'blue';
+					}
+				}
+			})
+
+		</script>
+	</body>
+</html>

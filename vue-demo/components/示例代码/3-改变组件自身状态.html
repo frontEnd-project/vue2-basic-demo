@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title></title>
+		<style>
+			
+		</style>
+		<script src="./src/vue.js"></script>
+	</head>
+
+	<body>
+		<div id="app">
+		    <!-- 城市的下拉 -->
+		    <custome-select title="请选择城市" :list="['北京','上海','杭州']" :select-index="0"></custome-select>
+		    <!-- 用户的下拉 -->
+		    <custome-select title="请选择用户" :list="['张三','李四','王五']" :select-index="1"></custome-select>
+		</div>
+		<script>
+
+
+			Vue.component('custome-select',{
+			    props:{
+			        title: {
+			            type: String,
+			            default: '这是一个定义的下拉框'
+			        },
+			        list:{
+			            type: Array,
+			            default(){return []}
+			        },
+			        selectIndex:{
+			        	type: Number,
+			            default:0
+			        }
+			    },
+			    data(){
+			    	return {
+			    		show: false  // 一开始状态为false，也就是不显示下拉列表
+			    	}
+			    },
+				template: `
+			        <div class="select">
+			            <h2>{{title}}</h2>
+			            <p @click="toggleShow">请选择：{{list[selectIndex]}}</p>
+			            <ul v-show="show">
+			                <li 
+			                	v-for="item,index in list"
+								:key="index"
+			                >
+			                	{{item}}
+			                </li>
+			            </ul>
+			        </div>
+			    `,
+			    methods:{
+			    	toggleShow(){
+			    		this.show = !this.show;
+			    	}
+			    }
+			})
+
+			new Vue({
+				el: '#app'
+			})
+
+		</script>
+	</body>
+</html>
